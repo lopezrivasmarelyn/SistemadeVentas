@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SistemadeVentas.DAL\SistemadeVentas.DAL.csproj" />
+    <ProjectReference Include="..\SistemadeVentas.EN\SistemadeVentas.EN.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SistemadeVentas.BL/SistemadeVentas.BL.csproj" />
+  <Project Path="SistemadeVentas.DAL/SistemadeVentas.DAL.csproj" />
+  <Project Path="SistemadeVentas.EN/SistemadeVentas.EN.csproj" />
+  <Project Path="SistemadeVentas.Pruebas/SistemadeVentas.Pruebas.csproj" />
+</Solution>
