@@ -93,6 +93,12 @@ namespace SistemadeVentas.DAL
                 if (!string.IsNullOrWhiteSpace(pUsuario.Apellido))
                     query = query.Where(s => s.Apellido.Contains(pUsuario.Apellido));
 
+                if (!string.IsNullOrWhiteSpace(pUsuario.Telefono))
+                    query = query.Where(s => s.Telefono.Contains(pUsuario.Telefono));
+
+                if (!string.IsNullOrWhiteSpace(pUsuario.Clave))
+                    query = query.Where(s => s.Clave.Contains(pUsuario.Clave));
+
                 if (!string.IsNullOrWhiteSpace(pUsuario.Estado))
                     query = query.Where(s => s.Estado == pUsuario.Estado);
 

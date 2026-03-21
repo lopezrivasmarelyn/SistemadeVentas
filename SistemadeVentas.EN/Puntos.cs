@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,14 @@ namespace SistemadeVentas.EN
         public int IdPuntos { get; set; }
         public int IdUsuario { get; set; } // FK
         public int PuntosAcumulados { get; set; } = 0;
-        public string CodigoDescuento { get; set; } = string.Empty;
-        public decimal PorcentajeDescuento { get; set; } = decimal.Zero;
-        public DateTime FechaGenerarCodigo { get; set; } = DateTime.Now;
+        public string CodigoDescuento { get; set; }
+        public int PorcentajeDescuento { get; set; }
+        public DateTime FechaGenerarCodigo { get; set; } 
         public DateTime FechaExpiracionCodigo { get; set; }
-        public string EstadoCodigo { get; set; } = string.Empty;
-        public DateTime FechaActualizacion { get; set; } = DateTime.Now;
+        public string EstadoCodigo { get; set; } 
+        public DateTime FechaActualizacion { get; set; } 
 
-        // Propiedades virtuales para llaves foraneas (FK) para representar la Asociacion
-        public virtual Usuario Usuario { get; set; } = new Usuario();
+        [NotMapped]
+        public int Top_Aux { get; set; }
     }
 }

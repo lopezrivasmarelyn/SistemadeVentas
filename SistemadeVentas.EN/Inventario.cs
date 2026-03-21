@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,12 @@ namespace SistemadeVentas.EN
     {
         public int IdInventario { get; set; }
         public int IdProducto { get; set; } //FK
-        public int StockAnual { get; set; } = 0;
-        public int StockMinimo { get; set; } = 0;
-        public DateTime UltimaActualizacion { get; set; } = DateTime.Now;
+        public int StockAnual { get; set; } 
+        public int StockMinimo { get; set; } 
+        public DateTime UltimaActualizacion { get; set; } 
 
-        // Propiedades virtuales para llaves foraneas (FK) para representar la Asociacion
-        public virtual Producto Producto { get; set; } = new Producto();
+        [NotMapped]
+        public int Top_Aux { get; set; }
 
     }
 }

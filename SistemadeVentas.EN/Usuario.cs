@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,14 @@ namespace SistemadeVentas.EN
     {
         public int IdUsuario { get; set; }
         public int IdRol { get; set; } // FK
-        public string Nombre { get; set; } = string.Empty;
-        public string Apellido { get; set; } = string.Empty;
-        public string Telefono { get; set; } = string.Empty;
-        public string Clave { get; set; } = string.Empty;
-        public string Estado { get; set; } = string.Empty;
-        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        public string Nombre { get; set; } 
+        public string Apellido { get; set; } 
+        public string Telefono { get; set; } 
+        public string Clave { get; set; }
+        public string Estado { get; set; } 
+        public DateTime FechaRegistro { get; set; } 
 
-        // Propiedades virtuales para llaves foraneas (FK) para representar la Asociacion
-        public virtual Rol Rol { get; set; } = new Rol();
+        [NotMapped]
+        public int Top_Aux { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,12 @@ namespace SistemadeVentas.EN
         public int IdDetalleVenta { get; set; }
         public int IdVenta { get; set; } // FK
         public int IdProducto { get; set; } //FK
-        public int Cantidad { get; set; } = 0;
-        public decimal PrecioUnitario { get; set; } = decimal.Zero;
-        public decimal SubTotal { get; set; } = decimal.Zero;
+        public int Cantidad { get; set; }
+        public decimal PrecioUnitario { get; set; } 
+        public decimal SubTotal { get; set; }
 
-        // Propiedades virtuales para llaves foraneas (FK) para representar la Asociacion
-        public virtual Venta Venta { get; set; } = new Venta();
-
-        public virtual Producto Producto { get; set; } = new Producto();
+        [NotMapped]
+        public int Top_Aux { get; set; }
 
     }
 }

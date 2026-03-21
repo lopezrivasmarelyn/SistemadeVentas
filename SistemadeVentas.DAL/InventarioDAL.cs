@@ -54,7 +54,7 @@ namespace SistemadeVentas.DAL
             using (var dbContexto = new DBContexto())
             {
                 return await dbContexto.Inventario
-                    .Include(i => i.Producto) // 👈 para traer relación
+                    .Include(i => i.Producto) // para traer relación
                     .FirstOrDefaultAsync(s => s.IdInventario == pInventario.IdInventario);
             }
         }
