@@ -23,13 +23,14 @@ namespace SistemadeVentas.BL
             return await UsuarioDAL.EliminarAsync(pUsuario);
         }
 
-        public async Task<Usuario> BuscarAsync(Usuario pUsuario)
+        public async Task<List<Usuario>> BuscarAsync(Usuario pUsuario)
         {
             return await UsuarioDAL.BuscarAsync(pUsuario);
         }
 
         public async Task<List<Usuario>> ObtenerUsuarioAsync()
         {
-            return await UsuarioDAL.ObtenerUsuarioAsync();
+            return await UsuarioDAL.ObtenerTodosAsync();
         }
     }
+}

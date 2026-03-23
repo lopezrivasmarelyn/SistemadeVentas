@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 //referencias del proyedcto
 using SistemadeVentas.EN;
-using SistemadeVentas.BL;
+using SistemadeVentas.DAL;
 
 
 namespace SistemadeVentas.BL
@@ -24,7 +24,7 @@ namespace SistemadeVentas.BL
             return await InventarioDAL.EliminarAsync(pInventario);
         }
 
-        public async Task<Inventario> BuscarAsync(Inventario pInventario)
+        public async Task<List<Inventario>> BuscarAsync(Inventario pInventario)
         {
             return await InventarioDAL.BuscarAsync(pInventario);
         }
@@ -34,13 +34,16 @@ namespace SistemadeVentas.BL
             return await InventarioDAL.ObtenerTodosAsync();
         }
 
-        public async Task ActualizarStockAsync(Inventario pInventario)
+        public static async Task ActualizarStockAsync(Inventario pInventario)
         {
-            await InventarioDAL.ActualizarStockAsync(pInventario);
+            await InventarioDAL.ModificarAsync(pInventario);
         }
 
-        public async Task<bool> VerificarStockMinimoAsync(Inventario pInventario)
+        public static async Task<bool> VerificarStockMinimoAsync(Inventario pInventario)
         {
-            return await InventarioDAL.VerificarStockMinimoAsync(pInventario);
+            var inv = await InventarioDAL.ObtenerPorIdAsync(pInventario);
+            if (inv == null) return false;
+            return inv.StockAnual <= inv.StockMinimo;
         }
     }
+}

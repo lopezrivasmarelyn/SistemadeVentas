@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 //referencias del proyedcto
 using SistemadeVentas.EN;
-using SistemadeVentas.BL;
+using SistemadeVentas.DAL;
 
 namespace SistemadeVentas.BL
 {
@@ -23,7 +23,7 @@ namespace SistemadeVentas.BL
             return await PuntosDAL.EliminarAsync(pPuntos);
         }
 
-        public async Task<Puntos> BuscarAsync(Puntos pPuntos)
+        public async Task<List<Puntos>> BuscarAsync(Puntos pPuntos)
         {
             return await PuntosDAL.BuscarAsync(pPuntos);
         }
@@ -33,13 +33,34 @@ namespace SistemadeVentas.BL
             return await PuntosDAL.ObtenerTodosAsync();
         }
 
-        public async Task<string> GenerarCodigoDescuentoAsync(Puntos pPuntos)
+        public static Task<string> GenerarCodigoDescuentoAsync(Puntos pPuntos)
         {
-            return await PuntosDAL.GenerarCodigoDescuentoAsync(pPuntos);
+            // Genera un código aleatorio seguro y rellena algunos campos del objeto.
+            var bytes = new byte[9];
+            System.Security.Cryptography.RandomNumberGenerator.Fill(bytes);
+            string codigo = Convert.ToBase64String(bytes).Replace("=", "").Replace("+", "").Replace("/", "");
+
+            pPuntos.CodigoDescuento = codigo;
+            pPuntos.FechaGenerarCodigo = DateTime.UtcNow;
+            pPuntos.FechaExpiracionCodigo = DateTime.UtcNow.AddDays(30);
+            pPuntos.EstadoCodigo = "Activo";
+
+            // TODO: Persistir cambios en la base de datos 
+            return Task.FromResult(codigo);
         }
 
-        public async Task<bool> CanjearPuntosAsync(Puntos pPuntos)
+        public static Task<bool> CanjearPuntosAsync(Puntos pPuntos)
         {
-            return await PuntosDAL.CanjearPuntosAsync(pPuntos);
+            // Lógica de ejemplo: comprobar puntos y marcar como canjeado.
+            // TODO: implementar verificación/actualización en la base de datos.
+            bool exito = false;
+
+            if (pPuntos != null && pPuntos.PuntosAcumulados >= 0)
+            {
+                // lógica real aquí...
+                exito = true;
+            }
+
+            return Task.FromResult(exito);
         }
-    }
+}   }

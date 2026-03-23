@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 //referencias del proyedcto
 using SistemadeVentas.EN;
-using SistemadeVentas.BL;
+using SistemadeVentas.DAL;
 
 namespace SistemadeVentas.BL
 {
@@ -23,7 +23,7 @@ namespace SistemadeVentas.BL
             return await CategoriaDAL.EliminarAsync(pCategoria);
         }
 
-        public async Task<Categoria> BuscarAsync(Categoria pCategoria)
+        public async Task<List<Categoria>> BuscarAsync(Categoria pCategoria)
         {
             return await CategoriaDAL.BuscarAsync(pCategoria);
         }
@@ -33,3 +33,4 @@ namespace SistemadeVentas.BL
             return await CategoriaDAL.ObtenerTodosAsync();
         }
     }
+}

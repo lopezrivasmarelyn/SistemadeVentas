@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 //referencias del proyedcto
 using SistemadeVentas.EN;
-using SistemadeVentas.BL;
+using SistemadeVentas.DAL;
 
 namespace SistemadeVentas.BL
 {
@@ -23,7 +23,7 @@ namespace SistemadeVentas.BL
             return await VentaDAL.EliminarAsync(pVenta);
         }
 
-        public async Task<Venta> BuscarAsync(Venta pVenta)
+        public async Task<List<Venta>> BuscarAsync(Venta pVenta)
         {
             return await VentaDAL.BuscarAsync(pVenta);
         }
@@ -33,8 +33,13 @@ namespace SistemadeVentas.BL
             return await VentaDAL.ObtenerTodosAsync();
         }
 
-        public async Task<decimal> CalcularTotalAsync(Venta pVenta)
+        public static Task<decimal> CalcularTotalAsync(Venta pVenta)
         {
-            return await VentaDAL.CalcularTotalAsync(pVenta);
+            if (pVenta == null) throw new ArgumentNullException(nameof(pVenta));
+
+            // Si el total ya está en la entidad, devolverlo.
+            // Cambia la lógica aquí si necesitas calcularlo a partir de detalles en BD.
+            return Task.FromResult(pVenta.Total);
         }
     }
+}

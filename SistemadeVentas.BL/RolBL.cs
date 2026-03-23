@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 //referencias del proyedcto
 using SistemadeVentas.EN;
-using SistemadeVentas.DAl;
+using SistemadeVentas.DAL;
 
 namespace SistemadeVentas.BL
 {
@@ -10,21 +10,21 @@ namespace SistemadeVentas.BL
     {
         public async Task<int> CrearAsync(Rol pRol)
         {
-            return await RolDAL.CrearAsyn(pRol);
+            return await RolDAL.CrearAsync(pRol);
         }
         public async Task<int> ModificarAsync(Rol pRol)
         {
-            return await RolDAL.ModificarAsyn(pRol);
+            return await RolDAL.ModificarAsync(pRol);
         }
         public async Task<int> EliminarAsync(Rol pRol)
         {
-            return await RolDAL.EliminarAsyn(pRol);
+            return await RolDAL.EliminarAsync(pRol);
         }
         public async Task<List<Rol>> BuscarAsync(Rol pRol)
         {
             return await RolDAL.BuscarAsync(pRol);
         }
-        public async Task<List<Rol>> ObtenerPorIdAsync(Rol pRol)
+        public async Task<Rol> ObtenerPorIdAsync(Rol pRol)
         {
             return await RolDAL.ObtenerPorIdAsync(pRol);
         }
@@ -32,4 +32,5 @@ namespace SistemadeVentas.BL
         {
             return await RolDAL.ObtenerTodosAsync();
         }
+    }
 }

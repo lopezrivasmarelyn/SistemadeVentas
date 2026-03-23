@@ -24,7 +24,7 @@ namespace SistemadeVentas.BL
             return await ProductoDAL.EliminarAsync(pProducto);
         }
 
-        public async Task<Producto> BuscarAsync(Producto pProducto)
+        public async Task<List<Producto>> BuscarAsync(Producto pProducto)
         {
             return await ProductoDAL.BuscarAsync(pProducto);
         }
@@ -36,6 +36,6 @@ namespace SistemadeVentas.BL
 
         public async Task ActualizarPrecioAsync(Producto pProducto)
         {
-            await ProductoDAL.ActualizarPrecioAsync(pProducto);
+            await ProductoDAL.ModificarAsync(pProducto);
         }
-    }
+}   }
