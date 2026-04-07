@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemadeVentas.IUMVC.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class RolController : Controller
     {
         // GET: Rol
