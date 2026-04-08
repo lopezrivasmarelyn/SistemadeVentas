@@ -1,89 +1,118 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-// using SistemadeVentas.BL; // Descomentar para usar la capa de negocio
-// using SistemadeVentas.EN; // Descomentar para usar las entidades
+using SistemadeVentas.BL;
+using SistemadeVentas.EN;
 
 namespace SistemadeVentas.IUMVC.Controllers
 {
     public class CategoriaController : Controller
     {
+        private readonly CategoriaBL categoriaBL = new CategoriaBL();
+
+        private bool VerificarSesion()
+        {
+            return Request.Cookies["UsuarioLogin"] != null;
+        }
+
         // GET: Categoria
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            // Ejemplo: var categorias = categoriaBL.ObtenerTodas();
-            // return View(categorias);
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var categorias = await categoriaBL.ObtenerTodosAsync();
+            return View(categorias);
+        }
+
+        // GET: Categoria/Crear
+        public ActionResult Crear()
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
             return View();
         }
 
-        // GET: Categoria/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Categoria/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Categoria/Create
+        // POST: Categoria/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Crear(Categoria categoria)
         {
-            try
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            if (ModelState.IsValid)
             {
-                // Lógica para guardar la nueva categoría
+                await categoriaBL.CrearAsync(categoria);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(categoria);
         }
 
-        // GET: Categoria/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Categoria/Modificar/5
+        public async Task<ActionResult> Modificar(int id)
         {
-            return View();
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var categoria = new Categoria { IdCategoria = id };
+            var resultado = await categoriaBL.BuscarAsync(categoria);
+            if (resultado == null)
+                return NotFound();
+
+            return View(resultado.FirstOrDefault());
         }
 
-        // POST: Categoria/Edit/5
+        // POST: Categoria/Modificar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Modificar(Categoria categoria)
         {
-            try
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            if (ModelState.IsValid)
             {
-                // Lógica para actualizar la categoría
+                await categoriaBL.ModificarAsync(categoria);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(categoria);
         }
 
-        // GET: Categoria/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Categoria/Eliminar/5
+        public async Task<ActionResult> Eliminar(int id)
         {
-            return View();
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var categoria = new Categoria { IdCategoria = id };
+            var resultado = await categoriaBL.BuscarAsync(categoria);
+            if (resultado == null)
+                return NotFound();
+
+            return View(resultado.FirstOrDefault());
         }
 
-        // POST: Categoria/Delete/5
+        // POST: Categoria/Eliminar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> EliminarConfirmado(int id)
         {
-            try
-            {
-                // Lógica para eliminar la categoría
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var categoria = new Categoria { IdCategoria = id };
+            await categoriaBL.EliminarAsync(categoria);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Categoria/Buscar
+        public async Task<ActionResult> Buscar(Categoria categoria)
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var categorias = await categoriaBL.BuscarAsync(categoria);
+            return View("Index", categorias);
         }
     }
 }
