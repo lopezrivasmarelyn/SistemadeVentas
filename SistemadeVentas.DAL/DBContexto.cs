@@ -16,9 +16,6 @@ namespace SistemadeVentas.DAL
 
         // Agrega aquí todas tus entidades
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=.;Database=SistemaVentasDB;Trusted_Connection=True;");
-        }
+       
     }
 }
