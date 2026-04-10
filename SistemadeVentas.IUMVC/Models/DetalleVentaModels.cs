@@ -12,7 +12,7 @@ namespace SistemadeVentas.IUMVC.Models
         public int Id { get; set; }
 
         [ForeignKey("Venta")]
-        [Required(ErrorMessage = "La venta es obligatoria.")]
+        [Required(ErrorMessage = "Venta obligatoria.")]
         [Display(Name = "Venta")]
         public int IdVenta { get; set; }
 

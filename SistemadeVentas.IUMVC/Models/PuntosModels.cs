@@ -43,7 +43,7 @@ namespace SistemadeVentas.IUMVC.Models
 
         [Required(ErrorMessage = "El estado del código es obligatorio.")]
         [StringLength(20)]
-        [Display(Name = "Estado Código")]
+        [Display(Name = "Estado del Código")]
         public string EstadoCodigo { get; set; }
 
         [Required(ErrorMessage = "La fecha de actualización es obligatoria.")]

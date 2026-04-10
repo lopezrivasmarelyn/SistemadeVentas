@@ -26,7 +26,7 @@ namespace SistemadeVentas.IUMVC.Models
         [Display(Name = "Apellido")]
         public string Apellido { get; set; }
 
-        [Required(ErrorMessage = "El numero de telefono es obligatorio.")]
+        [Required(ErrorMessage = "Numero de telefono es obligatorio.")]
         [StringLength(50)]
         [Display(Name = "Telefono")]
         public string Telefono { get; set; }

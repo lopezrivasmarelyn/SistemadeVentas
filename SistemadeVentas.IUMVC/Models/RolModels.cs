@@ -10,6 +10,7 @@ namespace SistemadeVentas.IUMVC.Models
         [Key]
         public int Id { get; set; }
 
+
         [Required(ErrorMessage = "El nombre del rol es obligatorio.")]
         [StringLength(50)]
         [Display(Name = "Nombre")]

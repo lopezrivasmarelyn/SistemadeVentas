@@ -12,7 +12,6 @@ namespace SistemadeVentas.IUMVC.Models
         [Key]
         public int Id { get; set; }
 
-        
         [ForeignKey("Usuario")]
         [Required(ErrorMessage = "El usuario es obligatorio.")]
         [Display(Name = "Usuario")]

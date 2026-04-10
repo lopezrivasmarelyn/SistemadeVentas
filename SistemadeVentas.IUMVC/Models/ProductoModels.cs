@@ -11,7 +11,6 @@ namespace SistemadeVentas.IUMVC.Models
         [Key]
         public int Id { get; set; }
 
-
         [ForeignKey("Categoria")]
         [Required(ErrorMessage = "La categoría es obligatoria.")]
         [Display(Name = "Categoría")]
