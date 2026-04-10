@@ -5,6 +5,12 @@ namespace SistemadeVentas.DAL
 {
     public class DBContexto : DbContext
     {
+        //constructor
+        public DBContexto(DbContextOptions<DBContexto> options)
+            : base(options) { }
+
+        // inyeccion en los DAL
+        public DBContexto() { }
         public DbSet<Rol> Rol { get; set; }
         public DbSet<Inventario> Inventario { get; set; }
         public DbSet<DetalleVenta> DetalleVenta { get; set; }

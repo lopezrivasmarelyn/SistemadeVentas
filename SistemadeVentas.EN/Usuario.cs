@@ -20,5 +20,8 @@ namespace SistemadeVentas.EN
 
         [NotMapped]
         public int Top_Aux { get; set; }
+
+        //Navegacion
+        public virtual Rol Rol { get; set; }
     }
 }

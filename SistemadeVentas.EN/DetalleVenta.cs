@@ -19,5 +19,9 @@ namespace SistemadeVentas.EN
         [NotMapped]
         public int Top_Aux { get; set; }
 
+        // --- PROPIEDADES DE NAVEGACIÓN ---
+        public virtual Producto Producto { get; set; }
+        public virtual Venta Venta { get; set; }
+
     }
 }

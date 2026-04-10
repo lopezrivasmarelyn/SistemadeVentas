@@ -19,5 +19,7 @@ namespace SistemadeVentas.EN
 
         [NotMapped]
         public int Top_Aux { get; set; }
+
+        public virtual Usuario Usuario { get; set; }
     }
 }

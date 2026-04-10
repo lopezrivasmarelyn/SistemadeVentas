@@ -41,6 +41,6 @@ namespace SistemadeVentas.IUMVC.Models
         public virtual Usuario Usuario { get; set; }
 
         // Una Venta puede tener muchos Detalle_Venta
-        public virtual ICollection<Detalle_Venta> DetallesVenta { get; set; }
+        public virtual ICollection<DetalleVenta> DetallesVenta { get; set; }
     }
 }
