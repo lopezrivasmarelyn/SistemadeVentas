@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SistemadeVentas.EN;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SistemadeVentas.IUMVC.Models
 {
-    public class Rol
+    public class RolModels
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +15,6 @@ namespace SistemadeVentas.IUMVC.Models
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
-       
         public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }

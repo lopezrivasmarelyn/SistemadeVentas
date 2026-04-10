@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SistemadeVentas.EN;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemadeVentas.IUMVC.Models
 {
-    public class Puntos
+    public class PuntosModels
     {
         [Key]
         public int Id { get; set; }

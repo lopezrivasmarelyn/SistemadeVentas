@@ -1,10 +1,12 @@
-﻿using System;
+﻿using SistemadeVentas.EN;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemadeVentas.IUMVC.Models
 {
-    public class Venta
+    public class VentaModels
     {
       
         [Key]
