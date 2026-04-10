@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SistemadeVentas.EN.Puntos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPuntos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuntosAcumulados)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoDescuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PorcentajeDescuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaGenerarCodigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaExpiracionCodigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoCodigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaActualizacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Top_Aux)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPuntos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PuntosAcumulados)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoDescuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PorcentajeDescuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaGenerarCodigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaExpiracionCodigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoCodigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaActualizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Top_Aux)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
