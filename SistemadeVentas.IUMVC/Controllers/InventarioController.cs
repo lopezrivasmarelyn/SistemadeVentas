@@ -1,82 +1,142 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemadeVentas.BL;
+using SistemadeVentas.EN;
 
 namespace SistemadeVentas.IUMVC.Controllers
 {
     public class InventarioController : Controller
     {
+        private readonly InventarioBL inventarioBL = new InventarioBL();
+
+        private bool VerificarSesion()
+        {
+            return Request.Cookies["UsuarioLogin"] != null;
+        }
+
         // GET: Inventario
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var inventarios = await inventarioBL.ObtenerTodosAsync();
+            return View(inventarios);
+        }
+
+        // GET: Inventario/Crear
+        public ActionResult Crear()
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
             return View();
         }
 
-        // GET: Inventario/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Inventario/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Inventario/Create
+        // POST: Inventario/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Crear(Inventario inventario)
         {
-            try
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            if (ModelState.IsValid)
             {
+                await inventarioBL.CrearAsync(inventario);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(inventario);
         }
 
-        // GET: Inventario/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Inventario/Modificar/5
+        public async Task<ActionResult> Modificar(int id)
         {
-            return View();
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var inventario = new Inventario { IdInventario = id };
+            var resultado = await inventarioBL.BuscarAsync(inventario);
+            if (resultado == null)
+                return NotFound();
+
+            return View(resultado.FirstOrDefault());
         }
 
-        // POST: Inventario/Edit/5
+        // POST: Inventario/Modificar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Modificar(Inventario inventario)
         {
-            try
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            if (ModelState.IsValid)
             {
+                await inventarioBL.ModificarAsync(inventario);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(inventario);
         }
 
-        // GET: Inventario/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Inventario/Eliminar/5
+        public async Task<ActionResult> Eliminar(int id)
         {
-            return View();
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var inventario = new Inventario { IdInventario = id };
+            var resultado = await inventarioBL.BuscarAsync(inventario);
+            if (resultado == null)
+                return NotFound();
+
+            return View(resultado.FirstOrDefault());
         }
 
-        // POST: Inventario/Delete/5
+        // POST: Inventario/Eliminar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> EliminarConfirmado(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var inventario = new Inventario { IdInventario = id };
+            await inventarioBL.EliminarAsync(inventario);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Inventario/Buscar
+        public async Task<ActionResult> Buscar(Inventario inventario)
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var inventarios = await inventarioBL.BuscarAsync(inventario);
+            return View("Index", inventarios);
+        }
+
+        // POST: Inventario/ActualizarStock
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ActualizarStock(Inventario inventario)
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            await InventarioBL.ActualizarStockAsync(inventario);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Inventario/VerificarStockMinimo/5
+        public async Task<ActionResult> VerificarStockMinimo(int id)
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var inventario = new Inventario { IdInventario = id };
+            bool stockBajo = await InventarioBL.VerificarStockMinimoAsync(inventario);
+            ViewBag.StockBajo = stockBajo;
+            return View();
         }
     }
 }

@@ -1,33 +1,33 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using SistemadeVentas.IUMVC.Models;
-using System.Diagnostics;
 
 namespace SistemadeVentas.IUMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private bool VerificarSesion()
         {
-            _logger = logger;
+            return Request.Cookies["UsuarioLogin"] != null;
         }
 
-        public IActionResult Index()
+        // GET: Home/Index
+        public ActionResult Index()
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            return View();
+        }
+
+        // GET: Home/Error
+        public ActionResult Error()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        // GET: Home/AccesoDenegado
+        public ActionResult AccesoDenegado()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

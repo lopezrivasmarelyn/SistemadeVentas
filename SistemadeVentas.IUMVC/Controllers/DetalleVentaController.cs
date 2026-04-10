@@ -1,82 +1,131 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemadeVentas.BL;
+using SistemadeVentas.EN;
 
 namespace SistemadeVentas.IUMVC.Controllers
 {
     public class DetalleVentaController : Controller
     {
+        private readonly DetalleVentaBL detalleVentaBL = new DetalleVentaBL();
+
+        private bool VerificarSesion()
+        {
+            return Request.Cookies["UsuarioLogin"] != null;
+        }
+
         // GET: DetalleVenta
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var detalles = await detalleVentaBL.ObtenerTodosAsync();
+            return View(detalles);
+        }
+
+        // GET: DetalleVenta/Crear
+        public ActionResult Crear()
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
             return View();
         }
 
-        // GET: DetalleVenta/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: DetalleVenta/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: DetalleVenta/Create
+        // POST: DetalleVenta/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Crear(DetalleVenta detalleVenta)
         {
-            try
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            if (ModelState.IsValid)
             {
+                await detalleVentaBL.CrearAsync(detalleVenta);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(detalleVenta);
         }
 
-        // GET: DetalleVenta/Edit/5
-        public ActionResult Edit(int id)
+        // GET: DetalleVenta/Modificar/5
+        public async Task<ActionResult> Modificar(int id)
         {
-            return View();
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var detalle = new DetalleVenta { IdDetalleVenta = id };
+            var resultado = await detalleVentaBL.BuscarAsync(detalle);
+            if (resultado == null)
+                return NotFound();
+
+            return View(resultado.FirstOrDefault());
         }
 
-        // POST: DetalleVenta/Edit/5
+        // POST: DetalleVenta/Modificar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Modificar(DetalleVenta detalleVenta)
         {
-            try
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            if (ModelState.IsValid)
             {
+                await detalleVentaBL.ModificarAsync(detalleVenta);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(detalleVenta);
         }
 
-        // GET: DetalleVenta/Delete/5
-        public ActionResult Delete(int id)
+        // GET: DetalleVenta/Eliminar/5
+        public async Task<ActionResult> Eliminar(int id)
         {
-            return View();
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var detalle = new DetalleVenta { IdDetalleVenta = id };
+            var resultado = await detalleVentaBL.BuscarAsync(detalle);
+            if (resultado == null)
+                return NotFound();
+
+            return View(resultado.FirstOrDefault());
         }
 
-        // POST: DetalleVenta/Delete/5
+        // POST: DetalleVenta/Eliminar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> EliminarConfirmado(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var detalle = new DetalleVenta { IdDetalleVenta = id };
+            await detalleVentaBL.EliminarAsync(detalle);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: DetalleVenta/Buscar
+        public async Task<ActionResult> Buscar(DetalleVenta detalleVenta)
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            var detalles = await detalleVentaBL.BuscarAsync(detalleVenta);
+            return View("Index", detalles);
+        }
+
+        // POST: DetalleVenta/CalcularSubtotal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CalcularSubtotal(DetalleVenta detalleVenta)
+        {
+            if (!VerificarSesion())
+                return RedirectToAction("Login", "Usuario");
+
+            decimal subtotal = await detalleVentaBL.CalcularSubtotalAsync(detalleVenta);
+            ViewBag.Subtotal = subtotal;
+            return View(detalleVenta);
         }
     }
 }
