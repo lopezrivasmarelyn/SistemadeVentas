@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemadeVentas.IUMVC.Models
 {
-    public class Categoria
+    public class CategoriaModels
     {
         
         [Key]

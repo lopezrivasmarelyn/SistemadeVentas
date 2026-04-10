@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SistemadeVentas.IUMVC.Models
 {
-    public class Rol
+    public class RolModels
     {
         [Key]
         public int Id { get; set; }
