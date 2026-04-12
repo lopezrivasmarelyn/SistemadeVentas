@@ -1,51 +1,49 @@
-﻿@model SistemadeVentas.EN.Usuario
+﻿@model Usuario
 
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-header bg-dark text-white text-center">
-                <h4>Sistema de Ventas</h4>
-                <p>Iniciar Sesión</p>
-            </div>
-            <div class="card-body">
-                <form asp-action="Login" asp-controller="Usuario" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="login-wrapper">
+    <div class="login-card">
+        <h1 class="login-title">Bienvenido a PC Hardware Hub</h1>
+        <p class="login-subtitle">Inicia sesión o crea una cuenta para continuar</p>
 
-                    <div class="form-group mb-3">
-                        <label asp-for="Telefono" class="control-label">Teléfono</label>
-                        <input asp-for="Telefono" class="form-control" placeholder="Ingrese su teléfono" />
-                        <span asp-validation-for="Telefono" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label asp-for="Clave" class="control-label">Contraseña</label>
-                        <input asp-for="Clave" type="password" class="form-control" placeholder="Ingrese su contraseña" />
-                        <span asp-validation-for="Clave" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" value="Ingresar" class="btn btn-dark w-100" />
-                    </div>
-
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger mt-3">
-                            @ViewBag.Error
-                        </div>
-                    }
-                </form>
-            </div>
+        <div class="tabs-dark">
+            <button class="tab-btn-dark active">Iniciar Sesión</button>
+            <button class="tab-btn-dark inactive"
+                    onclick="window.location.href='@Url.Action("Crear", "Usuario")'">
+                Registrarse
+            </button>
         </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert-dark-error">@ViewBag.Error</div>
+        }
+
+        <form asp-action="Login" asp-controller="Usuario" method="post">
+            @Html.AntiForgeryToken()
+
+            <label class="form-label-dark">Teléfono</label>
+            <input asp-for="Telefono" class="form-input-dark" placeholder="Ingresa tu teléfono" />
+            <span asp-validation-for="Telefono" class="val-error"></span>
+
+            <label class="form-label-dark">Contraseña</label>
+            <input asp-for="Clave" type="password" class="form-input-dark" placeholder="••••••••" />
+            <span asp-validation-for="Clave" class="val-error"></span>
+
+            <button type="submit" class="btn-purple-full" style="margin-top:0.5rem;">
+                Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="login-divider">o</div>
+
+        <button class="btn-outline-dark" style="width:100%;"
+                onclick="window.location.href='@Url.Action("Index", "Producto")'">
+            Continuar como invitado
+        </button>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

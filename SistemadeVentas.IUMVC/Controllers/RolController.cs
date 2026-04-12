@@ -43,9 +43,11 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (ModelState.IsValid)
             {
                 await rolBL.CrearAsync(rol);
+                TempData["Exito"] = "Rol creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(rol);
+            TempData["Error"] = "Error al crear el rol.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Rol/Modificar/5
@@ -73,9 +75,11 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (ModelState.IsValid)
             {
                 await rolBL.ModificarAsync(rol);
+                TempData["Exito"] = "Rol modificado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(rol);
+            TempData["Error"] = "Error al modificar el rol.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Rol/Eliminar/5
@@ -102,6 +106,7 @@ namespace SistemadeVentas.IUMVC.Controllers
 
             var rol = new Rol { IdRol = id };
             await rolBL.EliminarAsync(rol);
+            TempData["Exito"] = "Rol eliminado correctamente.";
             return RedirectToAction(nameof(Index));
         }
 

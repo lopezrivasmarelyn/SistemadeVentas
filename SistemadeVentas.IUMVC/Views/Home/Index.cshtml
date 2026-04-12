@@ -2,75 +2,51 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center mt-4">
-    <h1 class="display-4">Sistema de Ventas</h1>
-    <p class="lead">Bienvenido al sistema de gestión de ventas</p>
-</div>
+<h1 class="page-title">Panel Principal</h1>
+<p class="page-subtitle">Bienvenido al sistema de gestión de PC Hardware Hub</p>
 
-<hr />
+<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem;">
 
-<div class="row mt-4">
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Ventas</h5>
-                <p class="card-text">Gestionar ventas del sistema</p>
-                <a asp-controller="Venta" asp-action="Index" class="btn btn-dark">Ir a Ventas</a>
-            </div>
-        </div>
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Inventario</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar stock de productos</p>
+        <a href="@Url.Action("Index", "Inventario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Inventario</a>
     </div>
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Productos</h5>
-                <p class="card-text">Gestionar productos del sistema</p>
-                <a asp-controller="Producto" asp-action="Index" class="btn btn-dark">Ir a Productos</a>
-            </div>
-        </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🗂️</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Categorías</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar categorías de productos</p>
+        <a href="@Url.Action("Index", "Categoria")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Categorías</a>
     </div>
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Inventario</h5>
-                <p class="card-text">Gestionar inventario del sistema</p>
-                <a asp-controller="Inventario" asp-action="Index" class="btn btn-dark">Ir a Inventario</a>
-            </div>
-        </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Ventas</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Reporte de ventas del sistema</p>
+        <a href="@Url.Action("Index", "Venta")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Ventas</a>
     </div>
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Categorías</h5>
-                <p class="card-text">Gestionar categorías del sistema</p>
-                <a asp-controller="Categoria" asp-action="Index" class="btn btn-dark">Ir a Categorías</a>
-            </div>
-        </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🎁</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Puntos</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Sistema de puntos de lealtad</p>
+        <a href="@Url.Action("Index", "Puntos")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Puntos</a>
     </div>
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Usuarios</h5>
-                <p class="card-text">Gestionar usuarios del sistema</p>
-                <a asp-controller="Usuario" asp-action="Index" class="btn btn-dark">Ir a Usuarios</a>
-            </div>
-        </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">👥</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Usuarios</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar usuarios del sistema</p>
+        <a href="@Url.Action("Index", "Usuario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Usuarios</a>
     </div>
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Roles</h5>
-                <p class="card-text">Gestionar roles del sistema</p>
-                <a asp-controller="Rol" asp-action="Index" class="btn btn-dark">Ir a Roles</a>
-            </div>
-        </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🔑</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Roles</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar roles del sistema</p>
+        <a href="@Url.Action("Index", "Rol")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Roles</a>
     </div>
-    <div class="col-md-4 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5 class="card-title">Puntos</h5>
-                <p class="card-text">Gestionar puntos del sistema</p>
-                <a asp-controller="Puntos" asp-action="Index" class="btn btn-dark">Ir a Puntos</a>
-            </div>
-        </div>
-    </div>
+
 </div>

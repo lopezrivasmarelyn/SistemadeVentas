@@ -3,67 +3,81 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sistema de Ventas</title>
+    <title>@ViewData["Title"] - PC Hardware Hub</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" asp-append-version="true" />
+    
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Sistema de Ventas</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Categoria" asp-action="Index">Categorías</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Producto" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Venta" asp-action="Index">Ventas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Inventario" asp-action="Index">Inventario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Usuario" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Rol" asp-action="Index">Roles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Puntos" asp-action="Index">Puntos</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Usuario" asp-action="Logout">Cerrar Sesión</a>
-                        </li>
-                    </ul>
+
+    @{
+        var sesion = Context.Request.Cookies["UsuarioLogin"];
+        var rol = Context.Request.Cookies["UsuarioRol"];
+    }
+
+    @if (sesion != null)
+    {
+        <div style="display:flex; min-height:100vh;">
+            <div style="width:220px; background-color:#111; padding:1.5rem 1rem; flex-shrink:0;">
+                <div style="color:#a855f7; font-size:1rem; font-weight:700; margin-bottom:2rem; padding:0 0.5rem;">
+                    PC Hardware Hub
+                </div>
+                <nav style="display:flex; flex-direction:column; gap:0.25rem;">
+                    <a href="@Url.Action("Index", "Producto")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                        Catálogo
+                    </a>
+                    @if (rol == "1" || rol == "2")
+                    {
+                        <a href="@Url.Action("Index", "Inventario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Inventario
+                        </a>
+                        <a href="@Url.Action("Index", "Categoria")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Categorías
+                        </a>
+                        <a href="@Url.Action("Index", "Venta")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Reporte de Ventas
+                        </a>
+                        <a href="@Url.Action("Index", "Puntos")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Sistema de Puntos
+                        </a>
+                    }
+                    @if (rol == "1")
+                    {
+                        <a href="@Url.Action("Index", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Ranking Clientes
+                        </a>
+                        <a href="@Url.Action("Index", "Rol")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Roles
+                        </a>
+                    }
+                    @if (rol == "3")
+                    {
+                        <a href="@Url.Action("Index", "Puntos")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
+                            Mis Puntos
+                        </a>
+                    }
+                </nav>
+                <div style="position:absolute; bottom:1.5rem;">
+                    <a href="@Url.Action("Logout", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#a0a0a0; text-decoration:none; font-size:0.875rem;">
+                        Cerrar Sesión
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Sistema de Ventas
+            <div style="flex:1; padding:2rem; overflow-y:auto;">
+                @RenderBody()
+            </div>
         </div>
-    </footer>
+    }
+    else
+    {
+        @RenderBody()
+    }
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
