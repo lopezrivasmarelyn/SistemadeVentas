@@ -1,0 +1,42 @@
+﻿@model List<SistemadeVentas.EN.Usuario>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<h2>Gestión de Usuarios</h2>
+
+<a asp-action="Crear" class="btn btn-primary mb-3">+ Nuevo Usuario</a>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Fecha Registro</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.IdUsuario</td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Apellido</td>
+                <td>@usuario.Telefono</td>
+                <td>@(usuario.Rol?.Nombre ?? "Sin rol")</td>
+                <td>@usuario.Estado</td>
+                <td>@usuario.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-action="Modificar" asp-route-id="@usuario.IdUsuario" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@usuario.IdUsuario" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

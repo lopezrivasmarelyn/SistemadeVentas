@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace SistemadeVentas.EN
 {
     public class Categoria
     {
+        [Key]
         public int IdCategoria { get; set; }
-        public string Nombre { get; set; } 
-        public string Descripcion { get; set; } 
-        public string Estado { get; set; } 
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Estado { get; set; }
 
         [NotMapped]
         public int Top_Aux { get; set; }

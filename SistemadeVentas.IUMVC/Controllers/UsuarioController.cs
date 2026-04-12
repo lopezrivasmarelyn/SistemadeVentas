@@ -2,8 +2,11 @@
 using SistemadeVentas.BL;
 using SistemadeVentas.EN;
 
+
+
 namespace SistemadeVentas.IUMVC.Controllers
 {
+
     public class UsuarioController : Controller
     {
         private readonly UsuarioBL usuarioBL = new UsuarioBL();

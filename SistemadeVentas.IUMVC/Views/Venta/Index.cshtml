@@ -1,71 +1,38 @@
-﻿@model IEnumerable<SistemadeVentas.EN.Venta>
-
+﻿@model List<SistemadeVentas.EN.Venta>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ventas";
 }
 
-<h1>Index</h1>
+<h2>Gestión de Ventas</h2>
+<a asp-action="Crear" class="btn btn-primary mb-3">+ Nueva Venta</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-dark table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdVenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaVenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoPago)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Top_Aux)
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Tipo Pago</th>
+            <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoPago)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Top_Aux)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdVenta</td>
+                <td>@(item.Usuario?.Nombre ?? "Sin usuario")</td>
+                <td>@item.FechaVenta.ToString("dd/MM/yyyy")</td>
+                <td>@item.Total</td>
+                <td>@item.TipoPago</td>
+                <td>@item.Estado</td>
+                <td>
+                    <a asp-action="Modificar" asp-route-id="@item.IdVenta" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdVenta" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

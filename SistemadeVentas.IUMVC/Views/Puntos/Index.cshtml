@@ -1,89 +1,38 @@
-﻿@model IEnumerable<SistemadeVentas.EN.Puntos>
-
+﻿@model List<SistemadeVentas.EN.Puntos>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Puntos";
 }
 
-<h1>Index</h1>
+<h2>Gestión de Puntos</h2>
+<a asp-action="Crear" class="btn btn-primary mb-3">+ Nuevo Registro</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-dark table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPuntos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PuntosAcumulados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoDescuento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PorcentajeDescuento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaGenerarCodigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaExpiracionCodigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoCodigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaActualizacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Top_Aux)
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Puntos</th>
+            <th>Código</th>
+            <th>% Descuento</th>
+            <th>Estado Código</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPuntos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PuntosAcumulados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoDescuento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PorcentajeDescuento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaGenerarCodigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaExpiracionCodigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoCodigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaActualizacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Top_Aux)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdPuntos</td>
+                <td>@(item.Usuario?.Nombre ?? "Sin usuario")</td>
+                <td>@item.PuntosAcumulados</td>
+                <td>@item.CodigoDescuento</td>
+                <td>@item.PorcentajeDescuento%</td>
+                <td>@item.EstadoCodigo</td>
+                <td>
+                    <a asp-action="Modificar" asp-route-id="@item.IdPuntos" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdPuntos" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

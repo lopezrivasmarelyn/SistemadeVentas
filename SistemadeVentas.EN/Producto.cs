@@ -9,20 +9,18 @@ namespace SistemadeVentas.EN
 {
     public class Producto
     {
+        [Key]
         public int IdProducto { get; set; }
-        public int IdCategoria { get; set; } // FK
-        public string Nombre { get; set; } 
-        public string Descripcion { get; set; } 
-        public int Precio { get; set; } 
+        public int IdCategoria { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public int Precio { get; set; }
         public string Estado { get; set; }
 
 
         [NotMapped]
         public int Top_Aux { get; set; }
 
-        //Navegacion
-
         public virtual Categoria Categoria { get; set; }
-
     }
 }

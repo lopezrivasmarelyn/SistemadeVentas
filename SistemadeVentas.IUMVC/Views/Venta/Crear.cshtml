@@ -1,63 +1,39 @@
 ﻿@model SistemadeVentas.EN.Venta
-
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Crear Venta";
 }
 
-<h1>Crear</h1>
-
-<h4>Venta</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Crear">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdVenta" class="control-label"></label>
-                <input asp-for="IdVenta" class="form-control" />
-                <span asp-validation-for="IdVenta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <input asp-for="IdUsuario" class="form-control" />
-                <span asp-validation-for="IdUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaVenta" class="control-label"></label>
-                <input asp-for="FechaVenta" class="form-control" />
-                <span asp-validation-for="FechaVenta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoPago" class="control-label"></label>
-                <input asp-for="TipoPago" class="form-control" />
-                <span asp-validation-for="TipoPago" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Top_Aux" class="control-label"></label>
-                <input asp-for="Top_Aux" class="form-control" />
-                <span asp-validation-for="Top_Aux" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<h2>Crear Venta</h2>
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label class="form-label">ID Usuario</label>
+        <input asp-for="IdUsuario" class="form-control" />
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <div class="mb-3">
+        <label class="form-label">Fecha Venta</label>
+        <input asp-for="FechaVenta" type="date" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Total</label>
+        <input asp-for="Total" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tipo de Pago</label>
+        <select asp-for="TipoPago" class="form-control">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Transferencia">Transferencia</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Estado</label>
+        <select asp-for="Estado" class="form-control">
+            <option value="Completada">Completada</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

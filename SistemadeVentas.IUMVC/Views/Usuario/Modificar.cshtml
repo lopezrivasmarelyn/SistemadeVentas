@@ -1,27 +1,34 @@
-﻿@model SistemadeVentas.EN.Producto
+﻿@model SistemadeVentas.EN.Usuario
+
 @{
-    ViewData["Title"] = "Modificar Producto";
+    ViewData["Title"] = "Modificar Usuario";
 }
 
-<h2>Modificar Producto</h2>
+<h2>Modificar Usuario</h2>
+
 <form asp-action="Modificar" method="post">
     @Html.AntiForgeryToken()
-    <input asp-for="IdProducto" type="hidden" />
-    <div class="mb-3">
-        <label class="form-label">ID Categoría</label>
-        <input asp-for="IdCategoria" class="form-control" />
-    </div>
+    <input asp-for="IdUsuario" type="hidden" />
+
     <div class="mb-3">
         <label class="form-label">Nombre</label>
         <input asp-for="Nombre" class="form-control" />
     </div>
     <div class="mb-3">
-        <label class="form-label">Descripción</label>
-        <input asp-for="Descripcion" class="form-control" />
+        <label class="form-label">Apellido</label>
+        <input asp-for="Apellido" class="form-control" />
     </div>
     <div class="mb-3">
-        <label class="form-label">Precio</label>
-        <input asp-for="Precio" class="form-control" />
+        <label class="form-label">Teléfono</label>
+        <input asp-for="Telefono" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input asp-for="Clave" type="password" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">ID Rol</label>
+        <input asp-for="IdRol" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label">Estado</label>
@@ -30,6 +37,7 @@
             <option value="Inactivo">Inactivo</option>
         </select>
     </div>
+
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

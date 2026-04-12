@@ -1,65 +1,36 @@
-﻿@model IEnumerable<SistemadeVentas.EN.Inventario>
-
+﻿@model List<SistemadeVentas.EN.Inventario>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inventario";
 }
 
-<h1>Index</h1>
+<h2>Gestión de Inventario</h2>
+<a asp-action="Crear" class="btn btn-primary mb-3">+ Nuevo Registro</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-dark table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdInventario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProducto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockAnual)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockMinimo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UltimaActualizacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Top_Aux)
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Stock Anual</th>
+            <th>Stock Mínimo</th>
+            <th>Última Actualización</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdInventario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockAnual)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockMinimo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UltimaActualizacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Top_Aux)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdInventario</td>
+                <td>@(item.Producto?.Nombre ?? "Sin producto")</td>
+                <td>@item.StockAnual</td>
+                <td>@item.StockMinimo</td>
+                <td>@item.UltimaActualizacion.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-action="Modificar" asp-route-id="@item.IdInventario" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdInventario" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

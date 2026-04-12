@@ -1,0 +1,16 @@
+﻿@model SistemadeVentas.EN.Rol
+@{
+    ViewData["Title"] = "Modificar Rol";
+}
+
+<h2>Modificar Rol</h2>
+<form asp-action="Modificar" method="post">
+    @Html.AntiForgeryToken()
+    <input asp-for="IdRol" type="hidden" />
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
