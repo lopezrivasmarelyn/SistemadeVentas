@@ -15,6 +15,7 @@ namespace SistemadeVentas.EN
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; } 
         public decimal SubTotal { get; set; }
+        public string ImagenUrl { get; set; }
 
         [NotMapped]
         public int Top_Aux { get; set; }

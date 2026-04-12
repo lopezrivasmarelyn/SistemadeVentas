@@ -1,71 +1,165 @@
-﻿@model IEnumerable<SistemadeVentas.EN.DetalleVenta>
+﻿@model List<SistemadeVentas.EN.DetalleVenta>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tu Carrito";
 }
 
-<h1>Index</h1>
+<div class="carrito-overlay" id="carritoOverlay">
+    <div class="carrito-panel">
+        <div class="carrito-header">
+            <div>
+                <h2>Tu Carrito</h2>
+                <p class="carrito-subtitle">Revisa tus artículos y procede al pago.</p>
+            </div>
+            <a href="@Url.Action("Index", "Producto")" class="carrito-close">&times;</a>
+        </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDetalleVenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdVenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProducto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cantidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioUnitario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubTotal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Top_Aux)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDetalleVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioUnitario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Top_Aux)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <hr class="carrito-divider" />
+
+        @if (Model == null || !Model.Any())
+        {
+            <p class="carrito-vacio">Tu carrito está vacío.</p>
+        }
+      else
+        {
+            <div class="carrito-items">
+                @foreach (var item in Model)
+                {
+                    <div class="carrito-item">
+                        <img src="@(string.IsNullOrEmpty(item.ImagenUrl) ? "/img/placeholder.png" : item.ImagenUrl)"
+                             alt="@item.ImagenUrl" class="carrito-item-img" />
+
+                        <div class="carrito-item-info">
+                            <p class="carrito-item-nombre">@item.Producto?.Nombre</p>
+                            <p class="carrito-item-precio">$@item.PrecioUnitario.ToString("F2")</p>
+                            <p class="carrito-item-subtotal">Subtotal: $@item.SubTotal.ToString("F2")</p>
+
+                            <div class="carrito-cantidad">
+                                <form asp-action="ActualizarCantidad" asp-controller="DetalleVenta" method="post" style="display:inline;">
+                                    <input type="hidden" name="idProducto" value="@item.IdProducto" />
+                                    <input type="hidden" name="cantidad" value="@(item.Cantidad - 1)" />
+                                    <button type="submit" class="btn-cantidad">&#8722;</button>
+                                </form>
+
+                                <span class="cantidad-valor">@item.Cantidad</span>
+
+                                <form asp-action="ActualizarCantidad" asp-controller="DetalleVenta" method="post" style="display:inline;">
+                                    <input type="hidden" name="idProducto" value="@item.IdProducto" />
+                                    <input type="hidden" name="cantidad" value="@(item.Cantidad + 1)" />
+                                    <button type="submit" class="btn-cantidad">&#43;</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <form asp-action="Eliminar" asp-controller="DetalleVenta" method="post" style="margin-left:auto; align-self:center;">
+                            <input type="hidden" name="idProducto" value="@item.IdProducto" />
+                            <button type="submit" class="btn-eliminar" title="Eliminar">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6l-1 14H6L5 6" />
+                                    <path d="M10 11v6M14 11v6" />
+                                    <path d="M9 6V4h6v2" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+
+            <hr class="carrito-divider" />
+            <div class="carrito-total">
+                <span>Total:</span>
+                <span>$@Model.Sum(x => x.SubTotal).ToString("F2")</span>
+            </div>
+
+            <a href="#" class="btn-pagar">Proceder al pago</a>
+        }
+    </div>
+</div>
+
+<style>
+    .carrito-overlay {
+        position: fixed;
+        top: 0; right: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: flex-end;
+        z-index: 9999;
+    }
+    .carrito-panel {
+        background: #1e1e2e;
+        color: #fff;
+        width: 420px;
+        height: 100%;
+        padding: 24px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .carrito-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .carrito-header h2 { margin: 0; font-size: 1.5rem; }
+    .carrito-subtitle { color: #aaa; font-size: 0.85rem; margin: 4px 0 0; }
+    .carrito-close { font-size: 1.5rem; color: #aaa; text-decoration: none; line-height: 1; }
+    .carrito-close:hover { color: #fff; }
+    .carrito-divider { border-color: #333; margin: 8px 0; }
+    .carrito-vacio { color: #aaa; text-align: center; margin-top: 40px; }
+    .carrito-items { display: flex; flex-direction: column; gap: 16px; }
+    .carrito-item { display: flex; align-items: flex-start; gap: 12px; }
+    .carrito-item-img-placeholder {
+        width: 70px; height: 70px;
+        border-radius: 8px;
+        background: #2a2a4e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #aaa;
+        flex-shrink: 0;
+    }
+    .carrito-item-info { flex: 1; }
+    .carrito-item-nombre { margin: 0; font-weight: 600; font-size: 0.95rem; }
+    .carrito-item-precio { margin: 4px 0 2px; color: #ccc; font-size: 0.9rem; }
+    .carrito-item-subtotal { margin: 0 0 8px; color: #7c7cff; font-size: 0.83rem; }
+    .carrito-cantidad { display: flex; align-items: center; gap: 10px; }
+    .btn-cantidad {
+        background: #2a2a3e;
+        color: #fff;
+        border: 1px solid #444;
+        border-radius: 50%;
+        width: 28px; height: 28px;
+        cursor: pointer;
+        font-size: 1rem;
+        line-height: 1;
+    }
+    .btn-cantidad:hover { background: #3a3a5e; }
+    .cantidad-valor { font-weight: bold; min-width: 20px; text-align: center; }
+    .btn-eliminar { background: transparent; border: none; color: #aaa; cursor: pointer; }
+    .btn-eliminar:hover { color: #e74c3c; }
+    .carrito-total {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 1.1rem;
+        padding: 8px 0;
+    }
+    .btn-pagar {
+        display: block;
+        background: #4f46e5;
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+    .btn-pagar:hover { background: #4338ca; color: #fff; }
+</style>

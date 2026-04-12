@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SistemadeVentas.BL\SistemadeVentas.BL.csproj" />
     <ProjectReference Include="..\SistemadeVentas.DAL\SistemadeVentas.DAL.csproj" />
+    <ProjectReference Include="..\SistemadeVentas.EN\SistemadeVentas.EN.csproj" />
   </ItemGroup>
 
 </Project>

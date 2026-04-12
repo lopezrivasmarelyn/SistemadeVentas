@@ -14,7 +14,8 @@ namespace SistemadeVentas.EN
         public string Nombre { get; set; } 
         public string Descripcion { get; set; } 
         public int Precio { get; set; } 
-        public string Estado { get; set; } 
+        public string Estado { get; set; }
+
 
         [NotMapped]
         public int Top_Aux { get; set; }
