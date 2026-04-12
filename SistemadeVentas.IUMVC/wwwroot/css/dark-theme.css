@@ -1,32 +1,9 @@
-﻿bod /* ========================
-   VARIABLES GLOBALES
-======================== */
-:root {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --bg-tertiary: #3d3d3d;
-    --purple: #a855f7;
-    --purple-hover: #9333ea;
-    --purple-dark: #7c3aed;
-    --text-primary: #ffffff;
-    --text-secondary: #d0d0d0;
-    --text-muted: #a0a0a0;
-    --border-color: #444444;
-    --error-bg: #3d1515;
-    --error-text: #f87171;
-    --success-bg: #1a3d1a;
-    --success-text: #4ade80;
-    --stock-low: #ef4444;
-    --border-radius: 8px;
-    --border-radius-lg: 12px;
-}
-
-/* ========================
+﻿/* ========================
    BASE
 ======================== */
 body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -34,17 +11,17 @@ body {
    CARDS
 ======================== */
 .card-dark {
-    background-color: var(--bg-secondary);
-    border-radius: var(--border-radius-lg);
+    background-color: #2d2d2d !important;
+    border-radius: 12px !important;
     padding: 1.5rem;
-    border: none;
+    border: none !important;
 }
 
 /* ========================
    FORMULARIOS
 ======================== */
 .form-label-dark {
-    color: var(--text-secondary);
+    color: #d0d0d0 !important;
     font-size: 0.875rem;
     margin-bottom: 0.375rem;
     display: block;
@@ -52,11 +29,11 @@ body {
 
 .form-input-dark {
     width: 100%;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    background-color: #1a1a1a !important;
+    border: 1px solid #666 !important;
+    border-radius: 8px !important;
     padding: 0.75rem 1rem;
-    color: var(--text-primary);
+    color: #ffffff !important;
     font-size: 0.875rem;
     margin-bottom: 1rem;
     box-sizing: border-box;
@@ -64,21 +41,22 @@ body {
 }
 
     .form-input-dark:focus {
-        outline: none;
-        border-color: var(--purple);
+        outline: none !important;
+        border-color: #a855f7 !important;
+        box-shadow: none !important;
     }
 
     .form-input-dark::placeholder {
-        color: #666;
+        color: #666 !important;
     }
 
 .form-select-dark {
     width: 100%;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    background-color: #1a1a1a !important;
+    border: 1px solid #666 !important;
+    border-radius: 8px !important;
     padding: 0.75rem 1rem;
-    color: var(--text-primary);
+    color: #ffffff !important;
     font-size: 0.875rem;
     margin-bottom: 1rem;
     box-sizing: border-box;
@@ -86,18 +64,19 @@ body {
 }
 
     .form-select-dark:focus {
-        outline: none;
-        border-color: var(--purple);
+        outline: none !important;
+        border-color: #a855f7 !important;
+        box-shadow: none !important;
     }
 
 /* ========================
    BOTONES
 ======================== */
 .btn-purple {
-    background-color: var(--purple);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
+    background-color: #a855f7 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 500;
@@ -106,15 +85,15 @@ body {
 }
 
     .btn-purple:hover {
-        background-color: var(--purple-hover);
+        background-color: #9333ea !important;
     }
 
 .btn-purple-full {
     width: 100%;
-    background-color: var(--purple);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
+    background-color: #c026d3 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
     padding: 0.875rem;
     font-size: 1rem;
     font-weight: 500;
@@ -123,14 +102,14 @@ body {
 }
 
     .btn-purple-full:hover {
-        background-color: var(--purple-hover);
+        background-color: #a21caf !important;
     }
 
 .btn-outline-dark {
-    background-color: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    background-color: transparent !important;
+    color: #d0d0d0 !important;
+    border: 1px solid #666 !important;
+    border-radius: 8px !important;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     cursor: pointer;
@@ -138,13 +117,13 @@ body {
 }
 
     .btn-outline-dark:hover {
-        background-color: var(--bg-tertiary);
+        background-color: #3d3d3d !important;
     }
 
 .btn-icon {
-    background-color: transparent;
-    border: none;
-    color: var(--text-muted);
+    background-color: transparent !important;
+    border: none !important;
+    color: #a0a0a0 !important;
     cursor: pointer;
     padding: 0.25rem 0.5rem;
     font-size: 1rem;
@@ -152,11 +131,11 @@ body {
 }
 
     .btn-icon:hover {
-        color: var(--purple);
+        color: #a855f7 !important;
     }
 
 .btn-icon-danger:hover {
-    color: var(--error-text);
+    color: #f87171 !important;
 }
 
 /* ========================
@@ -165,25 +144,25 @@ body {
 .table-dark {
     width: 100%;
     border-collapse: collapse;
-    color: var(--text-primary);
+    color: #ffffff !important;
 }
 
     .table-dark thead th {
-        color: var(--text-muted);
+        color: #a0a0a0 !important;
         font-size: 0.875rem;
         font-weight: 400;
         padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #444444 !important;
         text-align: left;
     }
 
     .table-dark tbody tr {
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid #333 !important;
         transition: background-color 0.15s;
     }
 
         .table-dark tbody tr:hover {
-            background-color: #333;
+            background-color: #333 !important;
         }
 
     .table-dark tbody td {
@@ -196,9 +175,9 @@ body {
    BADGES / ETIQUETAS
 ======================== */
 .badge-dark {
-    background-color: var(--bg-tertiary);
-    color: var(--text-secondary);
-    border-radius: 6px;
+    background-color: #3d3d3d !important;
+    color: #d0d0d0 !important;
+    border-radius: 6px !important;
     padding: 0.25rem 0.75rem;
     font-size: 0.75rem;
     display: inline-block;
@@ -208,9 +187,9 @@ body {
    ALERTAS
 ======================== */
 .alert-dark-error {
-    background-color: var(--error-bg);
-    color: var(--error-text);
-    border-radius: var(--border-radius);
+    background-color: #3d1515 !important;
+    color: #f87171 !important;
+    border-radius: 8px !important;
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
     margin-bottom: 1rem;
@@ -220,9 +199,9 @@ body {
 }
 
 .alert-dark-success {
-    background-color: var(--success-bg);
-    color: var(--success-text);
-    border-radius: var(--border-radius);
+    background-color: #1a3d1a !important;
+    color: #4ade80 !important;
+    border-radius: 8px !important;
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
     margin-bottom: 1rem;
@@ -239,22 +218,22 @@ body {
 }
 
 .toast-dark {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    border-radius: var(--border-radius);
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
     padding: 1rem 1.25rem;
     margin-top: 0.5rem;
     min-width: 250px;
-    border-left: 4px solid var(--purple);
+    border-left: 4px solid #a855f7 !important;
     animation: slideIn 0.3s ease;
 }
 
     .toast-dark.error {
-        border-left-color: var(--error-text);
+        border-left-color: #f87171 !important;
     }
 
     .toast-dark.success {
-        border-left-color: var(--success-text);
+        border-left-color: #4ade80 !important;
     }
 
 @keyframes slideIn {
@@ -273,19 +252,19 @@ body {
    MODALES
 ======================== */
 .modal-dark .modal-content {
-    background-color: var(--bg-secondary);
-    border: none;
-    border-radius: var(--border-radius-lg);
-    color: var(--text-primary);
+    background-color: #2d2d2d !important;
+    border: none !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
 }
 
 .modal-dark .modal-header {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #444444 !important;
     padding: 1.25rem 1.5rem;
 }
 
 .modal-dark .modal-title {
-    color: var(--text-primary);
+    color: #ffffff !important;
     font-size: 1.1rem;
     font-weight: 600;
 }
@@ -295,26 +274,26 @@ body {
 }
 
 .modal-dark .modal-footer {
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid #444444 !important;
     padding: 1rem 1.5rem;
 }
 
 .modal-dark .btn-close {
-    filter: invert(1);
+    filter: invert(1) !important;
 }
 
 /* ========================
    TITULOS DE PAGINA
 ======================== */
 .page-title {
-    color: var(--purple);
+    color: #a855f7 !important;
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
 }
 
 .page-subtitle {
-    color: var(--text-muted);
+    color: #a0a0a0 !important;
     font-size: 0.875rem;
     margin-bottom: 1.5rem;
 }
@@ -323,12 +302,12 @@ body {
    STOCK
 ======================== */
 .stock-low {
-    color: var(--stock-low);
+    color: #ef4444 !important;
     font-weight: 600;
 }
 
 .stock-ok {
-    color: var(--text-primary);
+    color: #ffffff !important;
 }
 
 /* ========================
@@ -336,8 +315,8 @@ body {
 ======================== */
 .tabs-dark {
     display: flex;
-    background-color: var(--bg-primary);
-    border-radius: var(--border-radius);
+    background-color: #1a1a1a !important;
+    border-radius: 8px !important;
     padding: 4px;
     margin-bottom: 1.5rem;
 }
@@ -345,20 +324,70 @@ body {
 .tab-btn-dark {
     flex: 1;
     padding: 0.5rem;
-    border: none;
-    border-radius: 6px;
+    border: none !important;
+    border-radius: 6px !important;
     font-size: 0.875rem;
     cursor: pointer;
     transition: all 0.2s;
 }
 
     .tab-btn-dark.active {
-        background-color: var(--bg-secondary);
-        color: var(--text-primary);
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
         font-weight: 500;
     }
 
     .tab-btn-dark.inactive {
-        background-color: transparent;
-        color: var(--text-muted);
+        background-color: transparent !important;
+        color: #a0a0a0 !important;
     }
+
+/* ========================
+   LOGIN
+======================== */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a !important;
+    padding: 2rem;
+}
+
+.login-card {
+    background-color: #2d2d2d !important;
+    border-radius: 12px !important;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-title {
+    color: #ffffff !important;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+    color: #a0a0a0 !important;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-divider {
+    text-align: center;
+    color: #666 !important;
+    font-size: 0.875rem;
+    margin: 1rem 0;
+}
+
+.val-error {
+    color: #f87171 !important;
+    font-size: 0.8rem;
+    margin-top: -0.75rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
