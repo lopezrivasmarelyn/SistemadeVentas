@@ -1,21 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using SistemadeVentas.BL;
+using SistemadeVentas.EN;
 
 namespace SistemadeVentas.IUMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private bool VerificarSesion()
-        {
-            return Request.Cookies["UsuarioLogin"] != null;
-        }
+        private readonly ProductoBL productoBL = new ProductoBL();
 
-        // GET: Home/Index
-        public ActionResult Index()
+        // GET: Home/Index - Tienda pública (sin login)
+        public async Task<ActionResult> Index()
         {
-            if (!VerificarSesion())
-                return RedirectToAction("Login", "Usuario");
-
-            return View();
+            var productos = await productoBL.ObtenerTodosAsync();
+            return View(productos);
         }
 
         // GET: Home/Error

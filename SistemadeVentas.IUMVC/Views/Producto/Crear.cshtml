@@ -29,6 +29,12 @@
             <option value="Inactivo">Inactivo</option>
         </select>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label">URL de imagen</label>
+        <input asp-for="ImagenUrl" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" />
+    </div>
+
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

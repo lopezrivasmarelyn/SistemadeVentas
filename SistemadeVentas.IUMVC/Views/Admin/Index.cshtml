@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<h1 class="page-title">Panel Principal</h1>
+<p class="page-subtitle">Bienvenido al sistema de gestión de PC Hardware Hub</p>
+
+<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem;">
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Inventario</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar stock de productos</p>
+        <a href="@Url.Action("Index", "Inventario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Inventario</a>
+    </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🗂️</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Categorías</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar categorías de productos</p>
+        <a href="@Url.Action("Index", "Categoria")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Categorías</a>
+    </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Ventas</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Reporte de ventas del sistema</p>
+        <a href="@Url.Action("Index", "Venta")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Ventas</a>
+    </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🎁</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Puntos</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Sistema de puntos de lealtad</p>
+        <a href="@Url.Action("Index", "Puntos")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Puntos</a>
+    </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">👥</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Usuarios</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar usuarios del sistema</p>
+        <a href="@Url.Action("Index", "Usuario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Usuarios</a>
+    </div>
+
+    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🔑</div>
+        <h5 style="color:white; margin-bottom:0.5rem;">Roles</h5>
+        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar roles del sistema</p>
+        <a href="@Url.Action("Index", "Rol")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Roles</a>
+    </div>
+
+</div>

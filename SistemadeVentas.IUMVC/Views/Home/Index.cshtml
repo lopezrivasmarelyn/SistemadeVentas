@@ -1,52 +1,334 @@
-﻿@{
+﻿@model List<SistemadeVentas.EN.Producto>
+
+@{
     ViewData["Title"] = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var sesion = Context.Request.Cookies["UsuarioLogin"];
+    var rol = Context.Request.Cookies["UsuarioRol"];
 }
 
-<h1 class="page-title">Panel Principal</h1>
-<p class="page-subtitle">Bienvenido al sistema de gestión de PC Hardware Hub</p>
+<style>
+    * { box-sizing: border-box; }
 
-<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem;">
+    .store-hero {
+        background: linear-gradient(135deg, #0a1628 0%, #0f2240 60%, #0a1628 100%);
+        padding: 5rem 2rem;
+        text-align: center;
+        border-bottom: 1px solid #1e3a5f;
+    }
+    .store-hero .badge-top {
+        display: inline-block;
+        background: #1e3a5f;
+        color: #60a5fa;
+        font-size: 12px;
+        padding: 4px 14px;
+        border-radius: 20px;
+        margin-bottom: 1.5rem;
+    }
+    .store-hero h1 {
+        color: #f1f5f9;
+        font-size: 42px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+    .store-hero p {
+        color: #94a3b8;
+        font-size: 16px;
+        margin-bottom: 2rem;
+    }
+    .btn-primary-store {
+        background: #1d4ed8;
+        color: #fff;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 12px;
+    }
+    .btn-outline-store {
+        background: transparent;
+        color: #60a5fa;
+        border: 1px solid #1e40af;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .store-section {
+        padding: 3rem 2rem;
+        background: #0d1b2e;
+    }
+    .store-section-title {
+        color: #f1f5f9;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+    }
+    .store-section-sub {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 2rem;
+    }
+    .cat-filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+    .cat-pill {
+        background: #0f2240;
+        color: #94a3b8;
+        border: 1px solid #1e3a5f;
+        padding: 6px 18px;
+        border-radius: 20px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .cat-pill:hover, .cat-pill.active {
+        background: #1d4ed8;
+        color: #fff;
+        border-color: #1d4ed8;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+    }
+    .product-card {
+        background: #0f2240;
+        border: 1px solid #1e3a5f;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+    .product-card:hover {
+        transform: translateY(-4px);
+        border-color: #3b82f6;
+    }
+    .product-img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        background: #162d4a;
+    }
+    .product-img-placeholder {
+        width: 100%;
+        height: 160px;
+        background: #162d4a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+    }
+    .product-body {
+        padding: 14px;
+    }
+    .product-cat-label {
+        color: #3b82f6;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+    .product-name {
+        color: #f1f5f9;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+    .product-desc {
+        color: #64748b;
+        font-size: 12px;
+        margin-bottom: 14px;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .product-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .product-price {
+        color: #60a5fa;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .btn-add {
+        background: #1d4ed8;
+        color: #fff;
+        border: none;
+        padding: 7px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .btn-add:hover { background: #1e40af; }
+    .store-footer {
+        background: #060d1a;
+        padding: 2rem;
+        text-align: center;
+        color: #475569;
+        font-size: 13px;
+        border-top: 1px solid #1e3a5f;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #64748b;
+    }
+    .search-bar {
+        width: 100%;
+        max-width: 400px;
+        background: #0f2240;
+        border: 1px solid #1e3a5f;
+        color: #f1f5f9;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        margin-bottom: 2rem;
+    }
+    .search-bar::placeholder { color: #475569; }
+    .search-bar:focus { outline: none; border-color: #3b82f6; }
+</style>
 
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Inventario</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar stock de productos</p>
-        <a href="@Url.Action("Index", "Inventario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Inventario</a>
+<div style="background: #0a1628; min-height: 100vh;">
+
+    <!-- HERO -->
+    <div class="store-hero">
+        <div class="badge-top">Los mejores periféricos del mercado</div>
+        <h1>Bienvenido a<br>PC Hardware Hub</h1>
+        <p>Teclados, ratones, audífonos y más para tu setup ideal.</p>
+        <a href="#catalogo" class="btn-primary-store">Ver catálogo</a>
+        @if (sesion == null)
+        {
+            <a href="/Usuario/Login" class="btn-outline-store">Iniciar sesión</a>
+        }
+        else if (rol == "1")
+        {
+            <a href="/Admin/Index" class="btn-outline-store">Panel Admin</a>
+        }
+        else
+        {
+            <a href="/Usuario/Index" class="btn-outline-store">Mi cuenta</a>
+        }
     </div>
 
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🗂️</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Categorías</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar categorías de productos</p>
-        <a href="@Url.Action("Index", "Categoria")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Categorías</a>
+    <!-- CATÁLOGO -->
+    <div class="store-section" id="catalogo">
+        <p class="store-section-title">Catálogo de productos</p>
+        <p class="store-section-sub">Encuentra el periférico perfecto para tu setup</p>
+
+        <input type="text" class="search-bar" id="searchInput" placeholder="Buscar producto..." onkeyup="filtrarProductos()" />
+
+        <div class="cat-filters" id="catFilters">
+            <div class="cat-pill active" onclick="filtrarCategoria('todos', this)">Todos</div>
+            @if (Model != null)
+            {
+                @foreach (var cat in Model.Where(p => p.Categoria != null).Select(p => p.Categoria.Nombre).Distinct())
+                {
+                    <div class="cat-pill" onclick="filtrarCategoria('@cat', this)">@cat</div>
+                }
+            }
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="empty-state">
+                <p style="font-size: 48px;">📦</p>
+                <p style="color: #94a3b8; font-size: 16px; margin-top: 1rem;">No hay productos disponibles aún.</p>
+            </div>
+        }
+        else
+        {
+            <div class="products-grid" id="productsGrid">
+                @foreach (var producto in Model.Where(p => p.Estado == "Activo"))
+                {
+                    <div class="product-card" data-categoria="@(producto.Categoria?.Nombre ?? "")" data-nombre="@producto.Nombre.ToLower()">
+                        @if (!string.IsNullOrEmpty(producto.ImagenUrl))
+                        {
+                            <img src="@producto.ImagenUrl" alt="@producto.Nombre" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="product-img-placeholder" style="display:none;">📦</div>
+                        }
+                        else
+                        {
+                            <div class="product-img-placeholder">📦</div>
+                        }
+                        <div class="product-body">
+                            <p class="product-cat-label">@(producto.Categoria?.Nombre ?? "Sin categoría")</p>
+                            <p class="product-name">@producto.Nombre</p>
+                            <p class="product-desc">@producto.Descripcion</p>
+                            <div class="product-footer">
+                                <span class="product-price">$@producto.Precio</span>
+                                @if (sesion != null)
+                                {
+                                    <button class="btn-add" onclick="agregarAlCarrito(@producto.IdProducto, '@producto.Nombre', @producto.Precio)">+ Agregar</button>
+                                }
+                                else
+                                {
+                                    <a href="/Usuario/Login" class="btn-add">Comprar</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     </div>
 
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Ventas</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Reporte de ventas del sistema</p>
-        <a href="@Url.Action("Index", "Venta")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Ventas</a>
+    <div class="store-footer">
+        PC Hardware Hub © 2026 · Todos los derechos reservados
     </div>
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🎁</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Puntos</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Sistema de puntos de lealtad</p>
-        <a href="@Url.Action("Index", "Puntos")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Puntos</a>
-    </div>
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">👥</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Usuarios</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar usuarios del sistema</p>
-        <a href="@Url.Action("Index", "Usuario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Usuarios</a>
-    </div>
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🔑</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Roles</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar roles del sistema</p>
-        <a href="@Url.Action("Index", "Rol")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Roles</a>
-    </div>
-
 </div>
+
+<script>
+    function filtrarCategoria(cat, el) {
+        document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        document.querySelectorAll('.product-card').forEach(card => {
+            if (cat === 'todos' || card.dataset.categoria === cat) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function filtrarProductos() {
+        const texto = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.display = card.dataset.nombre.includes(texto) ? 'block' : 'none';
+        });
+    }
+
+    function agregarAlCarrito(id, nombre, precio) {
+        let carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+        const existente = carrito.find(p => p.id === id);
+        if (existente) {
+            existente.cantidad++;
+        } else {
+            carrito.push({ id, nombre, precio, cantidad: 1 });
+        }
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        actualizarCarrito();
+        mostrarToast(`"${nombre}" agregado al carrito`);
+    }
+
+    function mostrarToast(msg) {
+        const toast = document.createElement('div');
+        toast.textContent = msg;
+        toast.style.cssText = 'position:fixed; bottom:2rem; right:2rem; background:#1d4ed8; color:#fff; padding:12px 20px; border-radius:8px; font-size:14px; z-index:999; animation: fadeIn 0.3s;';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+</script>

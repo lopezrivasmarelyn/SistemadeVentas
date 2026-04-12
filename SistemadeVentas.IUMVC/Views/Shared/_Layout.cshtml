@@ -7,77 +7,237 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/dark-theme.css" asp-append-version="true" />
-    
 </head>
-<body>
+<body style="margin:0; padding:0; background:#0a1628; font-family: sans-serif;">
 
-    @{
-        var sesion = Context.Request.Cookies["UsuarioLogin"];
-        var rol = Context.Request.Cookies["UsuarioRol"];
-    }
+@{
+    var sesion = Context.Request.Cookies["UsuarioLogin"];
+    var rol = Context.Request.Cookies["UsuarioRol"];
+    var esAdmin = rol == "1";
+    var rutaActual = Context.Request.Path.Value ?? "";
+    var enAdmin = rutaActual.StartsWith("/Admin");
+}
 
-    @if (sesion != null)
-    {
-        <div style="display:flex; min-height:100vh;">
-            <div style="width:220px; background-color:#111; padding:1.5rem 1rem; flex-shrink:0;">
-                <div style="color:#a855f7; font-size:1rem; font-weight:700; margin-bottom:2rem; padding:0 0.5rem;">
-                    PC Hardware Hub
-                </div>
-                <nav style="display:flex; flex-direction:column; gap:0.25rem;">
-                    <a href="@Url.Action("Index", "Producto")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                        Catálogo
-                    </a>
-                    @if (rol == "1" || rol == "2")
-                    {
-                        <a href="@Url.Action("Index", "Inventario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Inventario
-                        </a>
-                        <a href="@Url.Action("Index", "Categoria")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Categorías
-                        </a>
-                        <a href="@Url.Action("Index", "Venta")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Reporte de Ventas
-                        </a>
-                        <a href="@Url.Action("Index", "Puntos")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Sistema de Puntos
-                        </a>
-                    }
-                    @if (rol == "1")
-                    {
-                        <a href="@Url.Action("Index", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Ranking Clientes
-                        </a>
-                        <a href="@Url.Action("Index", "Rol")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Roles
-                        </a>
-                    }
-                    @if (rol == "3")
-                    {
-                        <a href="@Url.Action("Index", "Puntos")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#d0d0d0; text-decoration:none; font-size:0.875rem;">
-                            Mis Puntos
-                        </a>
-                    }
-                </nav>
-                <div style="position:absolute; bottom:1.5rem;">
-                    <a href="@Url.Action("Logout", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#a0a0a0; text-decoration:none; font-size:0.875rem;">
-                        Cerrar Sesión
-                    </a>
-                </div>
+@if (esAdmin && enAdmin)
+{
+    <div style="display:flex; min-height:100vh;">
+        <div style="width:230px; background:#060d1a; padding:1.5rem 1rem; flex-shrink:0; border-right:1px solid #1e3a5f;">
+            <div style="color:#60a5fa; font-size:1rem; font-weight:700; margin-bottom:2rem; padding:0 0.5rem;">
+                PC Hardware Hub
             </div>
-            <div style="flex:1; padding:2rem; overflow-y:auto;">
-                @RenderBody()
+            <div style="color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:1px; padding:0 0.5rem; margin-bottom:0.5rem;">
+                Administración
+            </div>
+            <nav style="display:flex; flex-direction:column; gap:0.25rem;">
+                <a href="@Url.Action("Index", "Admin")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🏠 Panel Principal</a>
+                <a href="@Url.Action("Index", "Producto")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">📦 Productos</a>
+                <a href="@Url.Action("Index", "Categoria")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🗂️ Categorías</a>
+                <a href="@Url.Action("Index", "Inventario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">📊 Inventario</a>
+                <a href="@Url.Action("Index", "Venta")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">💰 Ventas</a>
+                <a href="@Url.Action("Index", "Puntos")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🎁 Puntos</a>
+                <a href="@Url.Action("Index", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">👥 Usuarios</a>
+                <a href="@Url.Action("Index", "Rol")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🔑 Roles</a>
+            </nav>
+            <div style="margin-top:2rem; border-top:1px solid #1e3a5f; padding-top:1rem;">
+                <a href="@Url.Action("Index", "Home")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#3b82f6; text-decoration:none; font-size:0.875rem;">🛒 Ver Tienda</a>
+                <a href="@Url.Action("Logout", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#ef4444; text-decoration:none; font-size:0.875rem;">🚪 Cerrar Sesión</a>
             </div>
         </div>
-    }
-    else
-    {
-        @RenderBody()
+        <div style="flex:1; padding:2rem; overflow-y:auto; background:#0d1b2e;">
+            @RenderBody()
+        </div>
+    </div>
+}
+else
+{
+    <style>
+        .navbar-store {
+            background: #060d1a;
+            border-bottom: 1px solid #1e3a5f;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 2rem;
+        }
+        .nav-links a:hover { color: #60a5fa; }
+        .user-menu-wrapper { position: relative; }
+        .user-menu-btn {
+            background: #1e3a5f;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #f1f5f9;
+            font-size: 14px;
+        }
+        .user-menu-btn:hover { background: #1e40af; }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: #0f2240;
+            border: 1px solid #1e3a5f;
+            border-radius: 10px;
+            min-width: 180px;
+            overflow: hidden;
+            z-index: 200;
+        }
+        .user-dropdown.open { display: block; }
+        .dropdown-item {
+            display: block;
+            padding: 12px 16px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid #1e3a5f;
+        }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: #162d4a; color: #f1f5f9; }
+        .dropdown-item.danger { color: #ef4444; }
+        .dropdown-item.danger:hover { background: #1a0a0a; }
+        .carrito-btn {
+            background: #1e3a5f;
+            color: #60a5fa;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .carrito-btn:hover { background: #1e40af; }
+        .saludo {
+            color: #60a5fa;
+            font-size: 13px;
+            margin-right: 4px;
+        }
+    </style>
+
+    <nav class="navbar-store">
+        <a href="@Url.Action("Index", "Home")" style="color:#60a5fa; font-size:1.1rem; font-weight:700; text-decoration:none;">
+            PC Hardware Hub
+        </a>
+        <div class="nav-links">
+            <a href="@Url.Action("Index", "Home")">Inicio</a>
+            <a href="#catalogo">Catálogo</a>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+
+            @if (sesion == null)
+            {
+                <!-- INVITADO: menú con Iniciar sesión y Registrarse -->
+                <div class="user-menu-wrapper">
+                    <button class="user-menu-btn" onclick="toggleMenu()">
+                        👤
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="/Usuario/Login" class="dropdown-item">🔑 Iniciar sesión</a>
+                        <a href="/Usuario/Crear" class="dropdown-item">📝 Registrarse</a>
+                    </div>
+                </div>
+            }
+            else if (esAdmin)
+            {
+                <!-- ADMIN -->
+                <div class="user-menu-wrapper">
+                    <button class="user-menu-btn" onclick="toggleMenu()">
+                        👤 <span class="saludo">Admin</span>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="/Admin/Index" class="dropdown-item">🏠 Panel Admin</a>
+                        <a href="/Usuario/Logout" class="dropdown-item danger">🚪 Cerrar sesión</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- CLIENTE: mostrar nombre -->
+                <div class="user-menu-wrapper">
+                    <button class="user-menu-btn" onclick="toggleMenu()">
+                        👤 <span class="saludo" id="nombreUsuario">Mi cuenta</span>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="/Perfil/Index" class="dropdown-item">👤 Mi perfil</a>
+                        <a href="/Puntos/Index" class="dropdown-item">🎁 Mis puntos</a>
+                        <a href="/Usuario/Logout" class="dropdown-item danger">🚪 Cerrar sesión</a>
+                    </div>
+                </div>
+            }
+
+            <button class="carrito-btn" onclick="verCarrito()">
+                🛒 <span id="carritoCount">0</span>
+            </button>
+        </div>
+    </nav>
+
+    @RenderBody()
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<script>
+    function toggleMenu() {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown) dropdown.classList.toggle('open');
     }
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    document.addEventListener('click', function(e) {
+        const wrapper = document.querySelector('.user-menu-wrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) dropdown.classList.remove('open');
+        }
+    });
 
+    function actualizarCarrito() {
+        const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+        const total = carrito.reduce((sum, p) => sum + p.cantidad, 0);
+        const el = document.getElementById('carritoCount');
+        if (el) el.textContent = total;
+    }
+
+    function verCarrito() {
+        const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+        if (carrito.length === 0) {
+            alert('Tu carrito está vacío');
+            return;
+        }
+        let msg = 'Carrito:\n\n';
+        let total = 0;
+        carrito.forEach(p => {
+            msg += `${p.nombre} x${p.cantidad} = $${p.precio * p.cantidad}\n`;
+            total += p.precio * p.cantidad;
+        });
+        msg += `\nTotal: $${total}`;
+        alert(msg);
+
+    }
+
+    const nombreCookie = document.cookie.split('; ').find(r => r.startsWith('UsuarioNombre='));
+if (nombreCookie) {
+    const nombre = nombreCookie.split('=')[1];
+    const el = document.getElementById('nombreUsuario');
+    if (el) el.textContent = 'Hola, ' + decodeURIComponent(nombre);
+}
+    actualizarCarrito();
+</script>
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

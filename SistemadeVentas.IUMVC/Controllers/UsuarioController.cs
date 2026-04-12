@@ -1,24 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemadeVentas.BL;
 using SistemadeVentas.EN;
 
-
-
 namespace SistemadeVentas.IUMVC.Controllers
 {
-
     public class UsuarioController : Controller
     {
         private readonly UsuarioBL usuarioBL = new UsuarioBL();
+        private readonly RolBL rolBL = new RolBL();
 
         private bool VerificarSesion()
         {
             return Request.Cookies["UsuarioLogin"] != null;
         }
 
+        private bool VerificarAdmin()
+        {
+            return Request.Cookies["UsuarioRol"] == "1";
+        }
+
         // GET: Usuario/Login
         public ActionResult Login()
         {
+            if (VerificarSesion())
+            {
+                if (VerificarAdmin())
+                    return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -44,7 +54,22 @@ namespace SistemadeVentas.IUMVC.Controllers
                     HttpOnly = true
                 });
 
-                return RedirectToAction("Index", "Home");
+                Response.Cookies.Append("UsuarioRol", usuarioEncontrado.IdRol.ToString(), new CookieOptions
+                {
+                    Expires = DateTimeOffset.Now.AddHours(8),
+                    HttpOnly = true
+                });
+
+                Response.Cookies.Append("UsuarioNombre", usuarioEncontrado.Nombre, new CookieOptions
+                {
+                    Expires = DateTimeOffset.Now.AddHours(8),
+                    HttpOnly = false
+                });
+
+                if (usuarioEncontrado.IdRol == 1)
+                    return RedirectToAction("Index", "Admin");
+                else
+                    return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Error = "Teléfono o contraseña incorrectos.";
@@ -55,25 +80,32 @@ namespace SistemadeVentas.IUMVC.Controllers
         public ActionResult Logout()
         {
             Response.Cookies.Delete("UsuarioLogin");
+            Response.Cookies.Delete("UsuarioRol");
+            Response.Cookies.Delete("UsuarioNombre");
             return RedirectToAction("Login", "Usuario");
         }
 
-        // GET: Usuario
+        // GET: Usuario/Index
         public async Task<ActionResult> Index()
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
+
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
 
             var usuarios = await usuarioBL.ObtenerUsuarioAsync();
             return View(usuarios);
         }
 
         // GET: Usuario/Crear
-        public ActionResult Crear()
+        public async Task<ActionResult> Crear()
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            var roles = await rolBL.ObtenerTodosAsync();
+            ViewBag.Roles = new SelectList(roles, "IdRol", "Nombre");
             return View();
         }
 
@@ -90,6 +122,9 @@ namespace SistemadeVentas.IUMVC.Controllers
                 await usuarioBL.CrearAsync(usuario);
                 return RedirectToAction(nameof(Index));
             }
+
+            var roles = await rolBL.ObtenerTodosAsync();
+            ViewBag.Roles = new SelectList(roles, "IdRol", "Nombre");
             return View(usuario);
         }
 
@@ -99,11 +134,16 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
             var usuario = new Usuario { IdUsuario = id };
             var resultado = await usuarioBL.BuscarAsync(usuario);
             if (resultado == null)
                 return NotFound();
 
+            var roles = await rolBL.ObtenerTodosAsync();
+            ViewBag.Roles = new SelectList(roles, "IdRol", "Nombre");
             return View(resultado.FirstOrDefault());
         }
 
@@ -115,11 +155,17 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
             if (ModelState.IsValid)
             {
                 await usuarioBL.ModificarAsync(usuario);
                 return RedirectToAction(nameof(Index));
             }
+
+            var roles = await rolBL.ObtenerTodosAsync();
+            ViewBag.Roles = new SelectList(roles, "IdRol", "Nombre");
             return View(usuario);
         }
 
@@ -129,6 +175,9 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
             var usuario = new Usuario { IdUsuario = id };
             var resultado = await usuarioBL.BuscarAsync(usuario);
             if (resultado == null)
@@ -137,13 +186,16 @@ namespace SistemadeVentas.IUMVC.Controllers
             return View(resultado.FirstOrDefault());
         }
 
-        // POST: Usuario/Eliminar
+        // POST: Usuario/EliminarConfirmado
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EliminarConfirmado(int id)
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
+
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
 
             var usuario = new Usuario { IdUsuario = id };
             await usuarioBL.EliminarAsync(usuario);

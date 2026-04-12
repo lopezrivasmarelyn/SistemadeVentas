@@ -18,6 +18,7 @@ namespace SistemadeVentas.EN
         public int Precio { get; set; }
         public string Estado { get; set; }
 
+        public string ImagenUrl { get; set; }
 
         [NotMapped]
         public int Top_Aux { get; set; }
