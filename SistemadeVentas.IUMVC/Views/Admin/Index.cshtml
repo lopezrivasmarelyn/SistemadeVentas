@@ -1,52 +1,119 @@
 ﻿@{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Panel Principal";
 }
 
-<h1 class="page-title">Panel Principal</h1>
-<p class="page-subtitle">Bienvenido al sistema de gestión de PC Hardware Hub</p>
+<style>
+    .admin-page { max-width: 1100px; margin: 0 auto; }
+    .admin-header { margin-bottom: 2.5rem; }
+    .admin-header h1 { color: #e2e8f0; font-size: 24px; font-weight: 500; margin-bottom: 6px; }
+    .admin-header p { color: #334155; font-size: 13px; }
+    .section-label {
+        color: #1e3a5f;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+    .modules-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 12px;
+        margin-bottom: 2rem;
+    }
+    .module-card {
+        background: #060d1a;
+        border: 1px solid #0f2240;
+        border-radius: 14px;
+        padding: 1.5rem;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: border-color 0.15s;
+    }
+    .module-card:hover { border-color: #1e3a5f; }
+    .module-icon {
+        width: 52px; height: 52px;
+        border-radius: 12px;
+        background: #0a1628;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+    .module-info { flex: 1; }
+    .module-name { color: #94a3b8; font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .module-desc { color: #1e3a5f; font-size: 12px; line-height: 1.4; }
+    .module-arrow { color: #1e3a5f; font-size: 20px; }
+</style>
 
-<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem;">
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Inventario</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar stock de productos</p>
-        <a href="@Url.Action("Index", "Inventario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Inventario</a>
+<div class="admin-page">
+    <div class="admin-header">
+        <h1>Panel Principal</h1>
+        <p>Bienvenido al sistema de gestión de PC Hardware Hub</p>
     </div>
 
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🗂️</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Categorías</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar categorías de productos</p>
-        <a href="@Url.Action("Index", "Categoria")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Categorías</a>
+    <div class="section-label">Catálogo</div>
+    <div class="modules-grid">
+        <a href="@Url.Action("Index", "Producto")" class="module-card">
+            <div class="module-icon">📦</div>
+            <div class="module-info">
+                <div class="module-name">Productos</div>
+                <div class="module-desc">Gestionar catálogo y precios</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
+        <a href="@Url.Action("Index", "Categoria")" class="module-card">
+            <div class="module-icon">🗂️</div>
+            <div class="module-info">
+                <div class="module-name">Categorías</div>
+                <div class="module-desc">Organizar por categorías</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
+        <a href="@Url.Action("Index", "Inventario")" class="module-card">
+            <div class="module-icon">📊</div>
+            <div class="module-info">
+                <div class="module-name">Inventario</div>
+                <div class="module-desc">Control de stock y niveles mínimos</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
     </div>
 
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Ventas</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Reporte de ventas del sistema</p>
-        <a href="@Url.Action("Index", "Venta")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Ventas</a>
+    <div class="section-label">Gestión</div>
+    <div class="modules-grid">
+        <a href="@Url.Action("Index", "Venta")" class="module-card">
+            <div class="module-icon">💰</div>
+            <div class="module-info">
+                <div class="module-name">Ventas</div>
+                <div class="module-desc">Historial y reportes de ventas</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
+        <a href="@Url.Action("Index", "Puntos")" class="module-card">
+            <div class="module-icon">🎁</div>
+            <div class="module-info">
+                <div class="module-name">Puntos</div>
+                <div class="module-desc">Sistema de descuentos</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
+        <a href="@Url.Action("Index", "Usuario")" class="module-card">
+            <div class="module-icon">👥</div>
+            <div class="module-info">
+                <div class="module-name">Usuarios</div>
+                <div class="module-desc">Cuentas y accesos</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
+        <a href="@Url.Action("Index", "Rol")" class="module-card">
+            <div class="module-icon">🔑</div>
+            <div class="module-info">
+                <div class="module-name">Roles</div>
+                <div class="module-desc">Permisos del sistema</div>
+            </div>
+            <span class="module-arrow">›</span>
+        </a>
     </div>
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🎁</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Puntos</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Sistema de puntos de lealtad</p>
-        <a href="@Url.Action("Index", "Puntos")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Puntos</a>
-    </div>
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">👥</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Usuarios</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar usuarios del sistema</p>
-        <a href="@Url.Action("Index", "Usuario")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Usuarios</a>
-    </div>
-
-    <div class="card-dark" style="text-align:center; padding:2rem 1rem;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🔑</div>
-        <h5 style="color:white; margin-bottom:0.5rem;">Roles</h5>
-        <p style="color:#a0a0a0; font-size:0.875rem; margin-bottom:1rem;">Gestionar roles del sistema</p>
-        <a href="@Url.Action("Index", "Rol")" class="btn-purple" style="text-decoration:none; padding:0.5rem 1rem;">Ver Roles</a>
-    </div>
-
 </div>

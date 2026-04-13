@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/dark-theme.css" asp-append-version="true" />
 </head>
-<body style="margin:0; padding:0; background:#0a1628; font-family: sans-serif;">
+<body style="margin:0; padding:0; font-family: sans-serif;">
 
 @{
     var sesion = Context.Request.Cookies["UsuarioLogin"];
@@ -20,32 +20,69 @@
 
 @if (esAdmin && enAdmin)
 {
-    <div style="display:flex; min-height:100vh;">
-        <div style="width:230px; background:#060d1a; padding:1.5rem 1rem; flex-shrink:0; border-right:1px solid #1e3a5f;">
-            <div style="color:#60a5fa; font-size:1rem; font-weight:700; margin-bottom:2rem; padding:0 0.5rem;">
-                PC Hardware Hub
-            </div>
-            <div style="color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:1px; padding:0 0.5rem; margin-bottom:0.5rem;">
-                Administración
-            </div>
-            <nav style="display:flex; flex-direction:column; gap:0.25rem;">
-                <a href="@Url.Action("Index", "Admin")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🏠 Panel Principal</a>
-                <a href="@Url.Action("Index", "Producto")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">📦 Productos</a>
-                <a href="@Url.Action("Index", "Categoria")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🗂️ Categorías</a>
-                <a href="@Url.Action("Index", "Inventario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">📊 Inventario</a>
-                <a href="@Url.Action("Index", "Venta")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">💰 Ventas</a>
-                <a href="@Url.Action("Index", "Puntos")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🎁 Puntos</a>
-                <a href="@Url.Action("Index", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">👥 Usuarios</a>
-                <a href="@Url.Action("Index", "Rol")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#94a3b8; text-decoration:none; font-size:0.875rem;">🔑 Roles</a>
-            </nav>
-            <div style="margin-top:2rem; border-top:1px solid #1e3a5f; padding-top:1rem;">
-                <a href="@Url.Action("Index", "Home")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#3b82f6; text-decoration:none; font-size:0.875rem;">🛒 Ver Tienda</a>
-                <a href="@Url.Action("Logout", "Usuario")" style="display:block; padding:0.65rem 0.75rem; border-radius:8px; color:#ef4444; text-decoration:none; font-size:0.875rem;">🚪 Cerrar Sesión</a>
-            </div>
+    <style>
+        .admin-navbar {
+            background: #060d1a;
+            border-bottom: 1px solid #0f2240;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 58px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-logo {
+            color: #3b82f6;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .admin-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-tienda {
+            color: #3b82f6;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid #1e3a5f;
+            background: transparent;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-tienda:hover { background: #0f2240; color: #3b82f6; }
+        .btn-logout {
+            color: #ef4444;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid #2a0a0a;
+            background: transparent;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-logout:hover { background: #1a0505; color: #ef4444; }
+        .admin-body {
+            background: #080f1a;
+            min-height: calc(100vh - 58px);
+            padding: 2.5rem;
+        }
+    </style>
+
+    <nav class="admin-navbar">
+        <a href="@Url.Action("Index", "Home")" class="admin-logo">PC Hardware Hub</a>
+        <div class="admin-nav-right">
+            <a href="@Url.Action("Index", "Home")" class="btn-tienda">🛒 Ver Tienda</a>
+            <a href="@Url.Action("Logout", "Usuario")" class="btn-logout">🚪 Cerrar Sesión</a>
         </div>
-        <div style="flex:1; padding:2rem; overflow-y:auto; background:#0d1b2e;">
-            @RenderBody()
-        </div>
+    </nav>
+
+    <div class="admin-body">
+        @RenderBody()
     </div>
 }
 else
@@ -120,11 +157,6 @@ else
             margin-left: 8px;
         }
         .carrito-btn:hover { background: #1e40af; }
-        .saludo {
-            color: #60a5fa;
-            font-size: 13px;
-            margin-right: 4px;
-        }
     </style>
 
     <nav class="navbar-store">
@@ -136,14 +168,10 @@ else
             <a href="#catalogo">Catálogo</a>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
-
             @if (sesion == null)
             {
-                <!-- INVITADO: menú con Iniciar sesión y Registrarse -->
                 <div class="user-menu-wrapper">
-                    <button class="user-menu-btn" onclick="toggleMenu()">
-                        👤
-                    </button>
+                    <button class="user-menu-btn" onclick="toggleMenu()">👤</button>
                     <div class="user-dropdown" id="userDropdown">
                         <a href="/Usuario/Login" class="dropdown-item">🔑 Iniciar sesión</a>
                         <a href="/Usuario/Crear" class="dropdown-item">📝 Registrarse</a>
@@ -152,11 +180,8 @@ else
             }
             else if (esAdmin)
             {
-                <!-- ADMIN -->
                 <div class="user-menu-wrapper">
-                    <button class="user-menu-btn" onclick="toggleMenu()">
-                        👤 <span class="saludo">Admin</span>
-                    </button>
+                    <button class="user-menu-btn" onclick="toggleMenu()">👤 <span style="color:#60a5fa; font-size:13px;">Admin</span></button>
                     <div class="user-dropdown" id="userDropdown">
                         <a href="/Admin/Index" class="dropdown-item">🏠 Panel Admin</a>
                         <a href="/Usuario/Logout" class="dropdown-item danger">🚪 Cerrar sesión</a>
@@ -165,11 +190,8 @@ else
             }
             else
             {
-                <!-- CLIENTE: mostrar nombre -->
                 <div class="user-menu-wrapper">
-                    <button class="user-menu-btn" onclick="toggleMenu()">
-                        👤 <span class="saludo" id="nombreUsuario">Mi cuenta</span>
-                    </button>
+                    <button class="user-menu-btn" onclick="toggleMenu()">👤 <span style="color:#60a5fa; font-size:13px;" id="nombreUsuario">Mi cuenta</span></button>
                     <div class="user-dropdown" id="userDropdown">
                         <a href="/Perfil/Index" class="dropdown-item">👤 Mi perfil</a>
                         <a href="/Puntos/Index" class="dropdown-item">🎁 Mis puntos</a>
@@ -177,7 +199,6 @@ else
                     </div>
                 </div>
             }
-
             <button class="carrito-btn" onclick="verCarrito()">
                 🛒 <span id="carritoCount">0</span>
             </button>
@@ -190,13 +211,11 @@ else
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-
 <script>
     function toggleMenu() {
         const dropdown = document.getElementById('userDropdown');
         if (dropdown) dropdown.classList.toggle('open');
     }
-
     document.addEventListener('click', function(e) {
         const wrapper = document.querySelector('.user-menu-wrapper');
         if (wrapper && !wrapper.contains(e.target)) {
@@ -204,20 +223,15 @@ else
             if (dropdown) dropdown.classList.remove('open');
         }
     });
-
     function actualizarCarrito() {
         const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
         const total = carrito.reduce((sum, p) => sum + p.cantidad, 0);
         const el = document.getElementById('carritoCount');
         if (el) el.textContent = total;
     }
-
     function verCarrito() {
         const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-        if (carrito.length === 0) {
-            alert('Tu carrito está vacío');
-            return;
-        }
+        if (carrito.length === 0) { alert('Tu carrito está vacío'); return; }
         let msg = 'Carrito:\n\n';
         let total = 0;
         carrito.forEach(p => {
@@ -226,18 +240,15 @@ else
         });
         msg += `\nTotal: $${total}`;
         alert(msg);
-
     }
-
     const nombreCookie = document.cookie.split('; ').find(r => r.startsWith('UsuarioNombre='));
-if (nombreCookie) {
-    const nombre = nombreCookie.split('=')[1];
-    const el = document.getElementById('nombreUsuario');
-    if (el) el.textContent = 'Hola, ' + decodeURIComponent(nombre);
-}
+    if (nombreCookie) {
+        const nombre = nombreCookie.split('=')[1];
+        const el = document.getElementById('nombreUsuario');
+        if (el) el.textContent = 'Hola, ' + decodeURIComponent(nombre);
+    }
     actualizarCarrito();
 </script>
-
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
