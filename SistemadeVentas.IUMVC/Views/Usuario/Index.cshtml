@@ -4,8 +4,58 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<h1 class="page-title">Gestión de Usuarios</h1>
-<p class="page-subtitle">Administra los usuarios del sistema.</p>
+<style>
+    .btn-purple {
+        text-decoration: none;
+    }
+
+    .box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tittle{
+        text-align: center;
+        margin: auto;
+        
+    }
+
+    .btn-morado {
+        background-color: #a855f7 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-decoration: none;
+        margin: 8px 16px 0 0;
+
+    }
+
+        .btn-morado:hover {
+            background-color: #9333ea !important;
+        }
+</style>
+
+<div class="box">
+    <div class="tittle">
+        <h1 class="page-title">Gestión de Usuarios</h1>
+        <p class="page-subtitle">Administra los usuarios del sistema.</p>
+    </div>
+    <div>
+        <a href="@Url.Action("CrearAdmin", "Usuario")" class="btn-morado">
+            Nuevo Usuario
+        </a>
+    </div>
+</div>
+
+
+
 
 @if (TempData["Exito"] != null)
 {
@@ -16,13 +66,9 @@
     <div class="alert-dark-error">@TempData["Error"]</div>
 }
 
-<div style="display:flex; justify-content:flex-end; margin-bottom:1rem;">
-    <a href="@Url.Action("CrearAdmin", "Usuario")" class="btn-purple">
-        + Nuevo Usuario
-    </a>
-</div>
 
-<div class="card-dark" style="padding:0;">
+
+<div class="card-dark" style="padding:0; margin: 10px;">
     <table class="table-dark">
         <thead>
             <tr>
