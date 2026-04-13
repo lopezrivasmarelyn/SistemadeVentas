@@ -29,6 +29,7 @@ namespace SistemadeVentas.DAL
                 producto.Descripcion = pProducto.Descripcion;
                 producto.Precio = pProducto.Precio;
                 producto.Estado = pProducto.Estado;
+                producto.ImagenUrl = pProducto.ImagenUrl;
 
                 dbContexto.Update(producto);
                 result = await dbContexto.SaveChangesAsync();

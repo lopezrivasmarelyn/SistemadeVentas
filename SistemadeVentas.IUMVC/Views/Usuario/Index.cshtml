@@ -1,42 +1,66 @@
-﻿@model List<SistemadeVentas.EN.Usuario>
+﻿@model List<Usuario>
 
 @{
     ViewData["Title"] = "Usuarios";
 }
 
-<h2>Gestión de Usuarios</h2>
+<h1 class="page-title">Gestión de Usuarios</h1>
+<p class="page-subtitle">Administra los usuarios del sistema.</p>
 
-<a asp-action="Crear" class="btn btn-primary mb-3">+ Nuevo Usuario</a>
+@if (TempData["Exito"] != null)
+{
+    <div class="alert-dark-success">@TempData["Exito"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert-dark-error">@TempData["Error"]</div>
+}
 
-<table class="table table-dark table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Teléfono</th>
-            <th>Rol</th>
-            <th>Estado</th>
-            <th>Fecha Registro</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var usuario in Model)
-        {
+<div style="display:flex; justify-content:flex-end; margin-bottom:1rem;">
+    <a href="@Url.Action("CrearAdmin", "Usuario")" class="btn-purple">
+        + Nuevo Usuario
+    </a>
+</div>
+
+<div class="card-dark" style="padding:0;">
+    <table class="table-dark">
+        <thead>
             <tr>
-                <td>@usuario.IdUsuario</td>
-                <td>@usuario.Nombre</td>
-                <td>@usuario.Apellido</td>
-                <td>@usuario.Telefono</td>
-                <td>@(usuario.Rol?.Nombre ?? "Sin rol")</td>
-                <td>@usuario.Estado</td>
-                <td>@usuario.FechaRegistro.ToString("dd/MM/yyyy")</td>
-                <td>
-                    <a asp-action="Modificar" asp-route-id="@usuario.IdUsuario" class="btn btn-sm btn-warning">Editar</a>
-                    <a asp-action="Eliminar" asp-route-id="@usuario.IdUsuario" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Fecha Registro</th>
+                <th style="text-align:right;">Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td style="color:#a0a0a0;">@usuario.IdUsuario</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Apellido</td>
+                    <td>@usuario.Telefono</td>
+                    <td>
+                        <span class="badge-dark">@(usuario.Rol?.Nombre ?? "Sin rol")</span>
+                    </td>
+                    <td>
+                        <span style="color: @(usuario.Estado == "Activo" ? "#4ade80" : "#f87171")">
+                            @usuario.Estado
+                        </span>
+                    </td>
+                    <td style="color:#a0a0a0;">@usuario.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                    <td style="text-align:right;">
+                        <a href="@Url.Action("Modificar", "Usuario", new { id = usuario.IdUsuario })"
+                           class="btn-icon" title="Modificar">✏️</a>
+                        <a href="@Url.Action("Eliminar", "Usuario", new { id = usuario.IdUsuario })"
+                           class="btn-icon btn-icon-danger" title="Eliminar">🗑️</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

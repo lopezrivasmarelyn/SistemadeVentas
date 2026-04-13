@@ -24,11 +24,8 @@ namespace SistemadeVentas.IUMVC.Controllers
         public ActionResult Login()
         {
             if (VerificarSesion())
-            {
-                if (VerificarAdmin())
-                    return RedirectToAction("Index", "Admin");
                 return RedirectToAction("Index", "Home");
-            }
+
             return View();
         }
 
@@ -53,23 +50,18 @@ namespace SistemadeVentas.IUMVC.Controllers
                     Expires = DateTimeOffset.Now.AddHours(8),
                     HttpOnly = true
                 });
-
                 Response.Cookies.Append("UsuarioRol", usuarioEncontrado.IdRol.ToString(), new CookieOptions
                 {
                     Expires = DateTimeOffset.Now.AddHours(8),
                     HttpOnly = true
                 });
-
                 Response.Cookies.Append("UsuarioNombre", usuarioEncontrado.Nombre, new CookieOptions
                 {
                     Expires = DateTimeOffset.Now.AddHours(8),
                     HttpOnly = false
                 });
 
-                if (usuarioEncontrado.IdRol == 1)
-                    return RedirectToAction("Index", "Admin");
-                else
-                    return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Error = "Teléfono o contraseña incorrectos.";
@@ -85,7 +77,7 @@ namespace SistemadeVentas.IUMVC.Controllers
             return RedirectToAction("Login", "Usuario");
         }
 
-        // GET: Usuario/Index
+        // GET: Usuario/Index - solo admin
         public async Task<ActionResult> Index()
         {
             if (!VerificarSesion())
@@ -98,28 +90,67 @@ namespace SistemadeVentas.IUMVC.Controllers
             return View(usuarios);
         }
 
-        // GET: Usuario/Crear
-        public async Task<ActionResult> Crear()
+        // GET: Usuario/Crear - público para registro
+        public ActionResult Crear()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Crear(Usuario usuario)
+        {
+            // Ignorar validación de campos que se asignan automáticamente
+            ModelState.Remove("IdRol");
+            ModelState.Remove("Estado");
+            ModelState.Remove("FechaRegistro");
+            ModelState.Remove("Rol");
+
+            if (ModelState.IsValid)
+            {
+                usuario.IdRol = 3;
+                usuario.Estado = "Activo";
+                usuario.FechaRegistro = DateTime.Now;
+                await usuarioBL.CrearAsync(usuario);
+                TempData["Exito"] = "Cuenta creada correctamente.";
+                return RedirectToAction("Login", "Usuario");
+            }
+            return View(usuario);
+        }
+
+        // GET: Usuario/CrearAdmin - solo admin
+        public async Task<ActionResult> CrearAdmin()
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
+
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
 
             var roles = await rolBL.ObtenerTodosAsync();
             ViewBag.Roles = new SelectList(roles, "IdRol", "Nombre");
             return View();
         }
 
-        // POST: Usuario/Crear
+        // POST: Usuario/CrearAdmin - solo admin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Crear(Usuario usuario)
+        public async Task<ActionResult> CrearAdmin(Usuario usuario)
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
+            ModelState.Remove("FechaRegistro");
+            ModelState.Remove("Rol");
+
             if (ModelState.IsValid)
             {
+                usuario.FechaRegistro = DateTime.Now;
                 await usuarioBL.CrearAsync(usuario);
+                TempData["Exito"] = "Usuario creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -158,9 +189,13 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarAdmin())
                 return RedirectToAction("Index", "Home");
 
+            ModelState.Remove("FechaRegistro");
+            ModelState.Remove("Rol");
+
             if (ModelState.IsValid)
             {
                 await usuarioBL.ModificarAsync(usuario);
+                TempData["Exito"] = "Usuario modificado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -199,6 +234,7 @@ namespace SistemadeVentas.IUMVC.Controllers
 
             var usuario = new Usuario { IdUsuario = id };
             await usuarioBL.EliminarAsync(usuario);
+            TempData["Exito"] = "Usuario eliminado correctamente.";
             return RedirectToAction(nameof(Index));
         }
 

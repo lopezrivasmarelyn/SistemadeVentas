@@ -8,20 +8,17 @@ namespace SistemadeVentas.IUMVC.Controllers
     {
         private readonly ProductoBL productoBL = new ProductoBL();
 
-        // GET: Home/Index - Tienda pública (sin login)
         public async Task<ActionResult> Index()
         {
             var productos = await productoBL.ObtenerTodosAsync();
             return View(productos);
         }
 
-        // GET: Home/Error
         public ActionResult Error()
         {
             return View();
         }
 
-        // GET: Home/AccesoDenegado
         public ActionResult AccesoDenegado()
         {
             return View();
