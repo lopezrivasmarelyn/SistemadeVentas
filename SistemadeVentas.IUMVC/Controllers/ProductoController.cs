@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemadeVentas.BL;
 using SistemadeVentas.EN;
 
@@ -7,28 +8,42 @@ namespace SistemadeVentas.IUMVC.Controllers
     public class ProductoController : Controller
     {
         private readonly ProductoBL productoBL = new ProductoBL();
+        private readonly CategoriaBL categoriaBL = new CategoriaBL();
 
         private bool VerificarSesion()
         {
             return Request.Cookies["UsuarioLogin"] != null;
         }
 
-        // GET: Producto
+        private bool VerificarAdmin()
+        {
+            return Request.Cookies["UsuarioRol"] == "1";
+        }
+
+        // GET: Producto - público
         public async Task<ActionResult> Index()
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
+
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
 
             var productos = await productoBL.ObtenerTodosAsync();
             return View(productos);
         }
 
         // GET: Producto/Crear
-        public ActionResult Crear()
+        public async Task<ActionResult> Crear()
         {
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var categorias = await categoriaBL.ObtenerTodosAsync();
+            ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nombre");
             return View();
         }
 
@@ -40,11 +55,18 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            ModelState.Remove("Categoria");
+            ModelState.Remove("ImagenUrl");
+
             if (ModelState.IsValid)
             {
                 await productoBL.CrearAsync(producto);
+                TempData["Exito"] = "Producto creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
+
+            var categorias = await categoriaBL.ObtenerTodosAsync();
+            ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nombre");
             return View(producto);
         }
 
@@ -54,11 +76,16 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
             var producto = new Producto { IdProducto = id };
             var resultado = await productoBL.BuscarAsync(producto);
             if (resultado == null)
                 return NotFound();
 
+            var categorias = await categoriaBL.ObtenerTodosAsync();
+            ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nombre");
             return View(resultado.FirstOrDefault());
         }
 
@@ -70,11 +97,18 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            ModelState.Remove("Categoria");
+            ModelState.Remove("ImagenUrl");
+
             if (ModelState.IsValid)
             {
                 await productoBL.ModificarAsync(producto);
+                TempData["Exito"] = "Producto modificado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
+
+            var categorias = await categoriaBL.ObtenerTodosAsync();
+            ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nombre");
             return View(producto);
         }
 
@@ -84,6 +118,9 @@ namespace SistemadeVentas.IUMVC.Controllers
             if (!VerificarSesion())
                 return RedirectToAction("Login", "Usuario");
 
+            if (!VerificarAdmin())
+                return RedirectToAction("Index", "Home");
+
             var producto = new Producto { IdProducto = id };
             var resultado = await productoBL.BuscarAsync(producto);
             if (resultado == null)
@@ -92,7 +129,7 @@ namespace SistemadeVentas.IUMVC.Controllers
             return View(resultado.FirstOrDefault());
         }
 
-        // POST: Producto/Eliminar
+        // POST: Producto/EliminarConfirmado
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EliminarConfirmado(int id)
@@ -102,6 +139,7 @@ namespace SistemadeVentas.IUMVC.Controllers
 
             var producto = new Producto { IdProducto = id };
             await productoBL.EliminarAsync(producto);
+            TempData["Exito"] = "Producto eliminado correctamente.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -113,18 +151,6 @@ namespace SistemadeVentas.IUMVC.Controllers
 
             var productos = await productoBL.BuscarAsync(producto);
             return View("Index", productos);
-        }
-
-        // POST: Producto/ActualizarPrecio
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ActualizarPrecio(Producto producto)
-        {
-            if (!VerificarSesion())
-                return RedirectToAction("Login", "Usuario");
-
-            await productoBL.ActualizarPrecioAsync(producto);
-            return RedirectToAction(nameof(Index));
         }
     }
 }

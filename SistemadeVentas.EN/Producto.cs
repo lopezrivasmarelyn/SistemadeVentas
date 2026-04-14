@@ -13,12 +13,12 @@ namespace SistemadeVentas.EN
         [Key]
         public int IdProducto { get; set; }
         public int IdCategoria { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        public string? Nombre { get; set; }
+        public string? Descripcion { get; set; }
         public int Precio { get; set; }
-        public string Estado { get; set; }
+        public string? Estado { get; set; }
 
-        public string ImagenUrl { get; set; }
+        public string? ImagenUrl { get; set; }
 
         [NotMapped]
         public int Top_Aux { get; set; }

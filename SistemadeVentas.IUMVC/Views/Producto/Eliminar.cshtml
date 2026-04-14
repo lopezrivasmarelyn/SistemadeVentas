@@ -1,17 +1,56 @@
-﻿@model SistemadeVentas.EN.Producto
+﻿@model Producto
+
 @{
     ViewData["Title"] = "Eliminar Producto";
 }
 
-<h2>¿Eliminar este producto?</h2>
-<div class="card bg-dark text-white p-3">
-    <p><strong>Nombre:</strong> @Model.Nombre</p>
-    <p><strong>Precio:</strong> @Model.Precio</p>
-    <p><strong>Estado:</strong> @Model.Estado</p>
+<style>
+    .form-page { max-width: 520px; margin: 2rem auto; }
+    .form-card { background: #0f2240; border: 1px solid #1e3a5f; border-radius: 12px; padding: 2rem; }
+    .info-row { display: flex; padding: 0.75rem 0; border-bottom: 1px solid #1e3a5f; }
+    .info-label { color: #64748b; font-size: 13px; width: 140px; flex-shrink: 0; }
+    .info-value { color: #f1f5f9; font-size: 14px; }
+    .btn-eliminar { background: #ef4444; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; cursor: pointer; margin-right: 8px; }
+    .btn-eliminar:hover { background: #dc2626; }
+    .btn-cancelar { background: transparent; color: #94a3b8; border: 1px solid #1e3a5f; padding: 10px 24px; border-radius: 8px; font-size: 14px; text-decoration: none; }
+    .btn-cancelar:hover { background: #162d4a; color: #f1f5f9; }
+</style>
+
+<div class="form-page">
+    <h1 class="page-title">Eliminar Producto</h1>
+    <p class="page-subtitle">¿Estás seguro que deseas eliminar este producto?</p>
+
+    <div class="form-card">
+        <div style="background:#1f0a0a; border:1px solid #3d1515; border-radius:8px; padding:1rem; margin-bottom:1.5rem;">
+            <p style="color:#ef4444; font-size:14px; margin:0;">
+                ⚠️ Esta acción no se puede deshacer.
+            </p>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Nombre</span>
+            <span class="info-value">@Model.Nombre</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Categoría</span>
+            <span class="info-value">@(Model.Categoria?.Nombre ?? "Sin categoría")</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Precio</span>
+            <span class="info-value">$@Model.Precio</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Estado</span>
+            <span class="info-value" style="color: @(Model.Estado == "Activo" ? "#4ade80" : "#f87171")">
+                @Model.Estado
+            </span>
+        </div>
+
+        <form asp-action="EliminarConfirmado" method="post" style="margin-top:1.5rem;">
+            @Html.AntiForgeryToken()
+            <input name="id" type="hidden" value="@Model.IdProducto" />
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+            <a asp-action="Index" class="btn-cancelar">Cancelar</a>
+        </form>
+    </div>
 </div>
-<form asp-action="EliminarConfirmado" method="post" class="mt-3">
-    @Html.AntiForgeryToken()
-    <input name="id" type="hidden" value="@Model.IdProducto" />
-    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
