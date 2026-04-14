@@ -1,9 +1,5 @@
-﻿//Referencias
-using System.Security.Cryptography;
-//referencias del proyedcto
-using SistemadeVentas.EN;
+﻿using SistemadeVentas.EN;
 using SistemadeVentas.DAL;
-
 
 namespace SistemadeVentas.BL
 {
@@ -12,6 +8,7 @@ namespace SistemadeVentas.BL
         public async Task<int> CrearAsync(Producto pProducto)
         {
             return await ProductoDAL.CrearAsync(pProducto);
+            // ✅ Esto ahora también crea el inventario automáticamente (lo maneja el DAL)
         }
 
         public async Task<int> ModificarAsync(Producto pProducto)
@@ -22,6 +19,7 @@ namespace SistemadeVentas.BL
         public async Task<int> EliminarAsync(Producto pProducto)
         {
             return await ProductoDAL.EliminarAsync(pProducto);
+            // ✅ Esto ahora también elimina el inventario primero (lo maneja el DAL)
         }
 
         public async Task<List<Producto>> BuscarAsync(Producto pProducto)
@@ -38,4 +36,5 @@ namespace SistemadeVentas.BL
         {
             await ProductoDAL.ModificarAsync(pProducto);
         }
-}   }
+    }
+}

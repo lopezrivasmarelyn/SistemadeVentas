@@ -12,6 +12,16 @@ namespace SistemadeVentas.DAL
             {
                 dbContexto.Add(pProducto);
                 result = await dbContexto.SaveChangesAsync();
+                // ✅ Al crear producto, se genera su inventario automáticamente
+                var inventario = new Inventario
+                {
+                    IdProducto = pProducto.IdProducto,
+                    StockAnual = 0,
+                    StockMinimo = 0,
+                    UltimaActualizacion = DateTime.Now
+                };
+                dbContexto.Add(inventario);
+                await dbContexto.SaveChangesAsync();
             }
             return result;
         }
@@ -23,6 +33,8 @@ namespace SistemadeVentas.DAL
             {
                 var producto = await dbContexto.Producto
                     .FirstOrDefaultAsync(s => s.IdProducto == pProducto.IdProducto);
+
+                if (producto == null) return 0;
 
                 producto.IdCategoria = pProducto.IdCategoria;
                 producto.Nombre = pProducto.Nombre;
@@ -42,8 +54,20 @@ namespace SistemadeVentas.DAL
             int result = 0;
             using (var dbContexto = new DBContexto())
             {
+                // ✅ Primero eliminar el inventario asociado para no romper la FK
+                var inventario = await dbContexto.Inventario
+                    .FirstOrDefaultAsync(i => i.IdProducto == pProducto.IdProducto);
+
+                if (inventario != null)
+                {
+                    dbContexto.Inventario.Remove(inventario);
+                    await dbContexto.SaveChangesAsync();
+                }
+
                 var producto = await dbContexto.Producto
                     .FirstOrDefaultAsync(s => s.IdProducto == pProducto.IdProducto);
+
+                if (producto == null) return 0;
 
                 dbContexto.Producto.Remove(producto);
                 result = await dbContexto.SaveChangesAsync();
@@ -56,7 +80,7 @@ namespace SistemadeVentas.DAL
             using (var dbContexto = new DBContexto())
             {
                 return await dbContexto.Producto
-                    .Include(p => p.Categoria) // 👈 relación
+                    .Include(p => p.Categoria)
                     .FirstOrDefaultAsync(s => s.IdProducto == pProducto.IdProducto);
             }
         }

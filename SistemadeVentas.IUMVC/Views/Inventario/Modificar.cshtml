@@ -1,28 +1,82 @@
 ﻿@model SistemadeVentas.EN.Inventario
+
 @{
-    ViewData["Title"] = "Modificar Inventario";
+    ViewData["Title"] = "Ajustar Stock";
 }
 
-<h2>Modificar Inventario</h2>
-<form asp-action="Modificar" method="post">
-    @Html.AntiForgeryToken()
-    <input asp-for="IdInventario" type="hidden" />
-    <div class="mb-3">
-        <label class="form-label">ID Producto</label>
-        <input asp-for="IdProducto" class="form-control" />
+<style>
+    .form-page { max-width: 520px; margin: 2rem auto; }
+    .form-card { background: #0f2240; border: 1px solid #1e3a5f; border-radius: 12px; padding: 2rem; }
+    .field { margin-bottom: 1.2rem; }
+    .field label { display: block; color: #94a3b8; font-size: 13px; margin-bottom: 6px; }
+    .field input { width: 100%; background: #162d4a; border: 1px solid #1e3a5f; color: #f1f5f9; padding: 10px 14px; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+    .field input:focus { outline: none; border-color: #a855f7; }
+    .field input[readonly] { opacity: 0.6; cursor: not-allowed; }
+    .val-error { color: #ef4444; font-size: 12px; margin-top: 4px; display: block; }
+    .btn-guardar { background: #a855f7; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; cursor: pointer; margin-right: 8px; }
+    .btn-guardar:hover { background: #9333ea; }
+    .btn-cancelar { background: transparent; color: #94a3b8; border: 1px solid #1e3a5f; padding: 10px 24px; border-radius: 8px; font-size: 14px; text-decoration: none; }
+    .btn-cancelar:hover { background: #162d4a; color: #f1f5f9; }
+    .btn-back {
+        background-color: #2a2a3a;
+        color: #a0a0b0;
+        border: 1px solid #3a3a4a;
+        border-radius: 8px;
+        padding: 7px 14px;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.2s;
+        margin-left: 10px;
+    }
+
+        .btn-back:hover {
+            background-color: #a855f7;
+            color: white;
+            border-color: #a855f7;
+        }
+</style>
+
+<div style="max-width:520px; margin: 1rem auto 0 auto;">
+    <a href="@Url.Action("Index", "Inventario")" class="btn-back">
+        &#8592; Inventario
+    </a>
+</div>
+
+<div class="form-page">
+    <h1 class="page-title">Ajustar Stock</h1>
+    <p class="page-subtitle">Actualiza el stock del producto.</p>
+
+    <div class="form-card">
+        <form asp-action="Modificar" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="IdInventario" />
+            <input type="hidden" asp-for="IdProducto" />
+
+            <div class="field">
+                <label>Producto</label>
+                <input value="@Model.Producto?.Nombre" readonly />
+            </div>
+
+            <div class="field">
+                <label>Stock Anual</label>
+                <input asp-for="StockAnual" placeholder="Ingresa el stock anual" type="number" />
+                <span asp-validation-for="StockAnual" class="val-error"></span>
+            </div>
+
+            <div class="field">
+                <label>Stock Mínimo</label>
+                <input asp-for="StockMinimo" placeholder="Ingresa el stock mínimo" type="number" />
+                <span asp-validation-for="StockMinimo" class="val-error"></span>
+            </div>
+
+            <div style="margin-top:1.5rem;">
+                <button type="submit" class="btn-guardar">Guardar Ajuste</button>
+                <a asp-action="Index" class="btn-cancelar">Cancelar</a>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Stock Anual</label>
-        <input asp-for="StockAnual" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Stock Mínimo</label>
-        <input asp-for="StockMinimo" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Última Actualización</label>
-        <input asp-for="UltimaActualizacion" type="date" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,36 +1,209 @@
 ﻿@model List<SistemadeVentas.EN.Inventario>
+
 @{
     ViewData["Title"] = "Inventario";
 }
 
-<h2>Gestión de Inventario</h2>
-<a asp-action="Crear" class="btn btn-primary mb-3">+ Nuevo Registro</a>
+<style>
+    .box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
 
-<table class="table table-dark table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Producto</th>
-            <th>Stock Anual</th>
-            <th>Stock Mínimo</th>
-            <th>Última Actualización</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.IdInventario</td>
-                <td>@(item.Producto?.Nombre ?? "Sin producto")</td>
-                <td>@item.StockAnual</td>
-                <td>@item.StockMinimo</td>
-                <td>@item.UltimaActualizacion.ToString("dd/MM/yyyy")</td>
-                <td>
-                    <a asp-action="Modificar" asp-route-id="@item.IdInventario" class="btn btn-sm btn-warning">Editar</a>
-                    <a asp-action="Eliminar" asp-route-id="@item.IdInventario" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
-            </tr>
+    .tittle {
+        text-align: center;
+        margin: auto;
+    }
+
+    .btn-morado {
+        background-color: #a855f7 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-decoration: none;
+        margin: 8px 16px 0 0;
+    }
+
+        .btn-morado:hover {
+            background-color: #9333ea !important;
         }
-    </tbody>
-</table>
+
+    .filtros {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 12px 10px;
+        flex-wrap: wrap;
+    }
+
+    .input-buscar {
+        background-color: #1e1e2e;
+        border: 1px solid #3a3a4a;
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 7px 12px;
+        font-size: 0.875rem;
+        width: 220px;
+        outline: none;
+        transition: border 0.2s;
+    }
+
+        .input-buscar:focus {
+            border-color: #a855f7;
+        }
+
+        .input-buscar::placeholder {
+            color: #6b6b80;
+        }
+
+    .btn-filtro {
+        background-color: #2a2a3a;
+        color: #a0a0b0;
+        border: 1px solid #3a3a4a;
+        border-radius: 8px;
+        padding: 7px 14px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .btn-filtro:hover {
+            background-color: #3a3a4a;
+            color: white;
+        }
+
+        .btn-filtro.activo {
+            background-color: #a855f7;
+            color: white;
+            border-color: #a855f7;
+        }
+
+    .btn-back {
+        background-color: #2a2a3a;
+        color: #a0a0b0;
+        border: 1px solid #3a3a4a;
+        border-radius: 8px;
+        padding: 7px 14px;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.2s;
+        margin-left: 10px;
+    }
+
+        .btn-back:hover {
+            background-color: #a855f7;
+            color: white;
+            border-color: #a855f7;
+        }
+</style>
+
+<div class="box">
+    <div>
+        <a href="@Url.Action("Index", "Admin")" class="btn-back" title="Volver al panel">
+            &#8592; Panel
+        </a>
+    </div>
+    <div class="tittle">
+        <h1 class="page-title">Gestión de Inventario</h1>
+        <p class="page-subtitle">Administra el stock de los productos.</p>
+    </div>
+    <div style="width:100px;"></div> 
+</div>
+
+@if (TempData["Exito"] != null)
+{
+    <div class="alert-dark-success">@TempData["Exito"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert-dark-error">@TempData["Error"]</div>
+}
+
+
+<div class="filtros">
+    <input type="text" id="buscador" class="input-buscar" placeholder="🔍 Buscar producto..." oninput="filtrar()" />
+    <button class="btn-filtro activo" id="btn-todos" onclick="setFiltro('todos')">Todos</button>
+    <button class="btn-filtro" id="btn-ok" onclick="setFiltro('ok')">✅ OK</button>
+    <button class="btn-filtro" id="btn-bajo" onclick="setFiltro('bajo')">⚠️ Stock Bajo</button>
+</div>
+
+<div class="card-dark" style="padding:0; margin: 10px;">
+    <table class="table-dark">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Stock Anual</th>
+                <th>Stock Mínimo</th>
+                <th>Estado Stock</th>
+                <th>Última Actualización</th>
+                <th style="text-align:right;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaBody">
+            @foreach (var item in Model)
+            {
+                <tr data-nombre="@(item.Producto?.Nombre?.ToLower() ?? "")"
+                    data-estado="@(item.StockAnual < item.StockMinimo ? "bajo" : "ok")">
+                    <td style="color:#a0a0a0;">@item.IdInventario</td>
+                    <td>@(item.Producto?.Nombre ?? "Sin producto")</td>
+                    <td>@item.StockAnual</td>
+                    <td>@item.StockMinimo</td>
+                    <td>
+                        @if (item.StockAnual < item.StockMinimo)
+                        {
+                            <span style="color:#f87171;">⚠️ Stock bajo</span>
+                        }
+                        else
+                        {
+                            <span style="color:#4ade80;">✅ OK</span>
+                        }
+                    </td>
+                    <td style="color:#a0a0a0;">@item.UltimaActualizacion.ToString("dd/MM/yyyy")</td>
+                    <td style="text-align:right;">
+                        <a href="@Url.Action("Modificar", "Inventario", new { id = item.IdInventario })"
+                           class="btn-icon" title="Ajustar Stock">✏️</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    let filtroActivo = 'todos';
+
+    function setFiltro(filtro) {
+        filtroActivo = filtro;
+
+        document.getElementById('btn-todos').classList.remove('activo');
+        document.getElementById('btn-ok').classList.remove('activo');
+        document.getElementById('btn-bajo').classList.remove('activo');
+
+        document.getElementById('btn-' + filtro).classList.add('activo');
+
+        filtrar();
+    }
+
+    function filtrar() {
+        const busqueda = document.getElementById('buscador').value.toLowerCase();
+        const filas = document.querySelectorAll('#tablaBody tr');
+
+        filas.forEach(fila => {
+            const nombre = fila.getAttribute('data-nombre');
+            const estado = fila.getAttribute('data-estado');
+
+            const coincideNombre = nombre.includes(busqueda);
+            const coincideEstado = filtroActivo === 'todos' || estado === filtroActivo;
+
+            fila.style.display = coincideNombre && coincideEstado ? '' : 'none';
+        });
+    }
+</script>
