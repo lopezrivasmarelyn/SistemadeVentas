@@ -1,0 +1,296 @@
+USE [master]
+GO
+/****** Object:  Database [SistemadeVentasBD]    Script Date: 20/06/2026 21:58:23 ******/
+CREATE DATABASE [SistemadeVentasBD]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'SistemadeVentasBD_Data', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\SistemadeVentasBD.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'SistemadeVentasBD_Log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\SistemadeVentasBD.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [SistemadeVentasBD] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [SistemadeVentasBD].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET  MULTI_USER 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [SistemadeVentasBD] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [SistemadeVentasBD] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'SistemadeVentasBD', N'ON'
+GO
+ALTER DATABASE [SistemadeVentasBD] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [SistemadeVentasBD] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [SistemadeVentasBD]
+GO
+/****** Object:  User [Ivi]    Script Date: 20/06/2026 21:58:23 ******/
+CREATE USER [Ivi] FOR LOGIN [Ivi] WITH DEFAULT_SCHEMA=[dbo]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [Ivi]
+GO
+/****** Object:  Table [dbo].[Categoria]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categoria](
+	[IdCategoria] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](100) NOT NULL,
+	[Descripcion] [nvarchar](255) NOT NULL,
+	[Estado] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Categoria] PRIMARY KEY CLUSTERED 
+(
+	[IdCategoria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DetalleVenta]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DetalleVenta](
+	[IdDetalleVenta] [int] IDENTITY(1,1) NOT NULL,
+	[IdVenta] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[Cantidad] [int] NOT NULL,
+	[PrecioUnitario] [decimal](10, 2) NOT NULL,
+	[SubTotal] [decimal](10, 2) NOT NULL,
+ CONSTRAINT [PK_DetalleVenta] PRIMARY KEY CLUSTERED 
+(
+	[IdDetalleVenta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Inventario]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Inventario](
+	[IdInventario] [int] IDENTITY(1,1) NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[StockAnual] [int] NOT NULL,
+	[StockMinimo] [int] NOT NULL,
+	[UltimaActualizacion] [datetime] NOT NULL,
+ CONSTRAINT [PK_Inventario] PRIMARY KEY CLUSTERED 
+(
+	[IdInventario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Producto]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Producto](
+	[IdProducto] [int] IDENTITY(1,1) NOT NULL,
+	[IdCategoria] [int] NOT NULL,
+	[Nombre] [nvarchar](100) NOT NULL,
+	[Descripcion] [nvarchar](255) NOT NULL,
+	[Precio] [int] NOT NULL,
+	[Estado] [nvarchar](50) NOT NULL,
+	[ImagenUrl] [nvarchar](500) NULL,
+ CONSTRAINT [PK_Producto] PRIMARY KEY CLUSTERED 
+(
+	[IdProducto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Puntos]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Puntos](
+	[IdPuntos] [int] IDENTITY(1,1) NOT NULL,
+	[IdUsuario] [int] NOT NULL,
+	[PuntosAcumulados] [int] NOT NULL,
+	[CodigoDescuento] [nvarchar](100) NULL,
+	[PorcentajeDescuento] [int] NOT NULL,
+	[FechaGenerarCodigo] [datetime] NOT NULL,
+	[FechaExpiracionCodigo] [datetime] NOT NULL,
+	[EstadoCodigo] [nvarchar](50) NOT NULL,
+	[FechaActualizacion] [datetime] NOT NULL,
+ CONSTRAINT [PK_Puntos] PRIMARY KEY CLUSTERED 
+(
+	[IdPuntos] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Rol]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Rol](
+	[IdRol] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_Rol] PRIMARY KEY CLUSTERED 
+(
+	[IdRol] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](100) NOT NULL,
+	[passwordHash] [varchar](255) NOT NULL,
+	[email] [varchar](150) NOT NULL,
+	[status] [tinyint] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Usuario]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Usuario](
+	[IdUsuario] [int] IDENTITY(1,1) NOT NULL,
+	[IdRol] [int] NOT NULL,
+	[Nombre] [nvarchar](100) NOT NULL,
+	[Apellido] [nvarchar](100) NOT NULL,
+	[Telefono] [nvarchar](20) NOT NULL,
+	[Clave] [nvarchar](255) NOT NULL,
+	[Estado] [nvarchar](50) NOT NULL,
+	[FechaRegistro] [datetime] NOT NULL,
+ CONSTRAINT [PK_Usuario] PRIMARY KEY CLUSTERED 
+(
+	[IdUsuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Venta]    Script Date: 20/06/2026 21:58:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Venta](
+	[IdVenta] [int] IDENTITY(1,1) NOT NULL,
+	[IdUsuario] [int] NOT NULL,
+	[FechaVenta] [datetime] NOT NULL,
+	[Total] [decimal](10, 2) NOT NULL,
+	[TipoPago] [nvarchar](50) NOT NULL,
+	[Estado] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Venta] PRIMARY KEY CLUSTERED 
+(
+	[IdVenta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Puntos] ADD  CONSTRAINT [DF_Puntos_PuntosAcumulados]  DEFAULT ((0)) FOR [PuntosAcumulados]
+GO
+ALTER TABLE [dbo].[DetalleVenta]  WITH CHECK ADD  CONSTRAINT [FK_DetalleVenta_Producto] FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[Producto] ([IdProducto])
+GO
+ALTER TABLE [dbo].[DetalleVenta] CHECK CONSTRAINT [FK_DetalleVenta_Producto]
+GO
+ALTER TABLE [dbo].[DetalleVenta]  WITH CHECK ADD  CONSTRAINT [FK_DetalleVenta_Venta] FOREIGN KEY([IdVenta])
+REFERENCES [dbo].[Venta] ([IdVenta])
+GO
+ALTER TABLE [dbo].[DetalleVenta] CHECK CONSTRAINT [FK_DetalleVenta_Venta]
+GO
+ALTER TABLE [dbo].[Inventario]  WITH CHECK ADD  CONSTRAINT [FK_Inventario_Producto] FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[Producto] ([IdProducto])
+GO
+ALTER TABLE [dbo].[Inventario] CHECK CONSTRAINT [FK_Inventario_Producto]
+GO
+ALTER TABLE [dbo].[Producto]  WITH CHECK ADD  CONSTRAINT [FK_Producto_Categoria] FOREIGN KEY([IdCategoria])
+REFERENCES [dbo].[Categoria] ([IdCategoria])
+GO
+ALTER TABLE [dbo].[Producto] CHECK CONSTRAINT [FK_Producto_Categoria]
+GO
+ALTER TABLE [dbo].[Puntos]  WITH CHECK ADD  CONSTRAINT [FK_Puntos_Usuario] FOREIGN KEY([IdUsuario])
+REFERENCES [dbo].[Usuario] ([IdUsuario])
+GO
+ALTER TABLE [dbo].[Puntos] CHECK CONSTRAINT [FK_Puntos_Usuario]
+GO
+ALTER TABLE [dbo].[Usuario]  WITH CHECK ADD  CONSTRAINT [FK_Usuario_Rol] FOREIGN KEY([IdRol])
+REFERENCES [dbo].[Rol] ([IdRol])
+GO
+ALTER TABLE [dbo].[Usuario] CHECK CONSTRAINT [FK_Usuario_Rol]
+GO
+ALTER TABLE [dbo].[Venta]  WITH CHECK ADD  CONSTRAINT [FK_Venta_Usuario] FOREIGN KEY([IdUsuario])
+REFERENCES [dbo].[Usuario] ([IdUsuario])
+GO
+ALTER TABLE [dbo].[Venta] CHECK CONSTRAINT [FK_Venta_Usuario]
+GO
+USE [master]
+GO
+ALTER DATABASE [SistemadeVentasBD] SET  READ_WRITE 
+GO
