@@ -1,0 +1,43 @@
+﻿@model SistemadeVentas.EN.Puntos
+@{
+    ViewData["Title"] = "Crear Puntos";
+}
+
+<h2>Crear Puntos</h2>
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label class="form-label">ID Usuario</label>
+        <input asp-for="IdUsuario" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Puntos Acumulados</label>
+        <input asp-for="PuntosAcumulados" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Código Descuento</label>
+        <input asp-for="CodigoDescuento" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Porcentaje Descuento</label>
+        <input asp-for="PorcentajeDescuento" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Fecha Generar Código</label>
+        <input asp-for="FechaGenerarCodigo" type="date" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Fecha Expiración</label>
+        <input asp-for="FechaExpiracionCodigo" type="date" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Estado Código</label>
+        <select asp-for="EstadoCodigo" class="form-control">
+            <option value="Activo">Activo</option>
+            <option value="Usado">Usado</option>
+            <option value="Expirado">Expirado</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

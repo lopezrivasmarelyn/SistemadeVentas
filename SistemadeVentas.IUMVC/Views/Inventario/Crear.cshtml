@@ -1,0 +1,27 @@
+﻿@model SistemadeVentas.EN.Inventario
+@{
+    ViewData["Title"] = "Crear Inventario";
+}
+
+<h2>Crear Inventario</h2>
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label class="form-label">ID Producto</label>
+        <input asp-for="IdProducto" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Stock Anual</label>
+        <input asp-for="StockAnual" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Stock Mínimo</label>
+        <input asp-for="StockMinimo" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Última Actualización</label>
+        <input asp-for="UltimaActualizacion" type="date" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

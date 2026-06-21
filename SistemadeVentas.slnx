@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="SistemadeVentas.BL/SistemadeVentas.BL.csproj" />
+  <Project Path="SistemadeVentas.DAL/SistemadeVentas.DAL.csproj" />
+  <Project Path="SistemadeVentas.EN/SistemadeVentas.EN.csproj" />
+  <Project Path="SistemadeVentas.IUMVC/SistemadeVentas.IUMVC.csproj" Id="04637a8b-ec33-4d50-8b21-6e5bc9597bfe" />
+  <Project Path="SistemadeVentas.Pruebas/SistemadeVentas.Pruebas.csproj" Id="b56ac213-f2e1-4942-bdbc-851c66af00a1" />
+</Solution>

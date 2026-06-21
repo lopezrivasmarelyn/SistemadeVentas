@@ -1,0 +1,38 @@
+﻿@model List<SistemadeVentas.EN.Puntos>
+@{
+    ViewData["Title"] = "Puntos";
+}
+
+<h2>Gestión de Puntos</h2>
+<a asp-action="Crear" class="btn btn-primary mb-3">+ Nuevo Registro</a>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Puntos</th>
+            <th>Código</th>
+            <th>% Descuento</th>
+            <th>Estado Código</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdPuntos</td>
+                <td>@(item.Usuario?.Nombre ?? "Sin usuario")</td>
+                <td>@item.PuntosAcumulados</td>
+                <td>@item.CodigoDescuento</td>
+                <td>@item.PorcentajeDescuento%</td>
+                <td>@item.EstadoCodigo</td>
+                <td>
+                    <a asp-action="Modificar" asp-route-id="@item.IdPuntos" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdPuntos" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
